@@ -16,7 +16,7 @@ switch ($request["type"])
 	case "login":
 		$response = "login, yeah we can do that";
 		$request1 = array();
-		$request1['type'] = $request["login"];
+		$request1['type'] = "login";
 		$request1['username'] = $request["uname"];
 		$request1['password'] = $request["pword"];
 		$response = $client->send_request($request1);
