@@ -18,7 +18,7 @@ switch ($request["type"])
 		$request1 = array();
 		$request1['type'] = $request["login"];
 		$request1['username'] = $request["uname"];
-		$request1['password'] = $request["pword";
+		$request1['password'] = $request["pword"];
 		$response = $client->send_request($request1);
 		echo "client received response: ".PHP_EOL;
 		print_r($response);
