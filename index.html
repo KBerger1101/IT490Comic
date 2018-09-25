@@ -9,7 +9,7 @@ function HandleLoginResponse(response)
 function SendLoginRequest(username,password)
 {
 	var request = new XMLHttpRequest();
-	request.open("POST","login.php",true);
+	request.open("POST","loginRBMQ.php",true);
 	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	request.onreadystatechange= function ()
 	{
@@ -30,7 +30,7 @@ awaiting response
 </div>
 <script>
 //change this to take the input boxes and pass their values
-SendLoginRequest("test","12345");
+SendLoginRequest("test","password");
 </script>
 </body>
 </html>
