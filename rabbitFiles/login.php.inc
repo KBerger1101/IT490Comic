@@ -25,7 +25,7 @@ public function validateLogin($username,$password)
 		if ($row["password"] == $pw)
 		{
 			echo "passwords match for $username".PHP_EOL;
-			return true;// password match
+			return 1;// password match
 		}
 		echo "passwords did not match for $username".PHP_EOL;
 	}
