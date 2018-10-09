@@ -11,8 +11,10 @@ RABBIT_Q = '*'
 RABBIT_USER = 'test'
 RABBIT_PASS = 'test'
 RABBIT_VH = 'testHost'
+#exchange for character info
 RABBIT_EX = 'superExchange'
-
+#exchange for errors
+eRABBIT_EX = 'errorExchange'
 apiKey = '?api_key=afbe58eef9e2d34188a29ebf707d671bde76e1a1&format=json'
 fields= '&field_list=id,powers,image'
 url = 'https://comicvine.gamespot.com/api/publisher/4010-31/' + apiKey
@@ -65,8 +67,13 @@ def sendCharData(fullCharDetailURL, name, publisher):
             powers.append(powerID)
         print(powers)
         #error catch? 
+        errorMSG = "Just a test"
         sendRequest(RABBIT_HOST, RABBIT_Q,RABBIT_USER, RABBIT_PASS, RABBIT_VH, RABBIT_EX, RABBIT_PORT, date, charID, name, imgURL, powers,publisher)
+        #just for testing error collection
+        sendError(RABBIT_HOST, RABBIT_Q,RABBIT_USER, RABBIT_PASS, RABBIT_VH, eRABBIT_EX, RABBIT_PORT, date, errorMSG)
     except requests.exceptions.RequestException:
+        errorMSG = "API request failed" 
+        sendError(RABBIT_HOST, RABBIT_Q,RABBIT_USER, RABBIT_PASS, RABBIT_VH, eRABBIT_EX, RABBIT_PORT, date, errorMSG)
         print('REQUEST FAILED, TOO MANY KNOCKS?')
 
 
@@ -82,6 +89,16 @@ def sendRequest(rabbitServer, rabbitQ, rabbitUser, rabbitPass, rabbitVHost, rabb
     connection = pika.BlockingConnection(pika.ConnectionParameters(rabbitServer, rabbitPort, rabbitVHost, creds))
     channel = connection.channel()
     channel.basic_publish(exchange=rabbitEx, routing_key=rabbitQ, body=rabbitMSG)
-    
+
+def sendError(rabbitServer, rabbitQ, rabbitUser, rabbitPass, rabbitVHost, rabbitEx, rabbitPort, date, msg):
+    rabbitMSG = json.dumps( {'date': date,
+                             'msg' : msg
+                            })
+    creds = pika.PlainCredentials(rabbitUser, rabbitPass)
+    connection = pika.BlockingConnection(pika.ConnectionParameters(rabbitServer, rabbitPort, rabbitVHost, creds))
+    channel = connection.channel()
+    channel.basic_publish(exchange=rabbitEx, routing_key=rabbitQ, body  = rabbitMSG)
+
+
 getCharData()
 print ("Who Would Win?")
