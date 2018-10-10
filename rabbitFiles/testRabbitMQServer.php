@@ -14,7 +14,7 @@ function authUser($username, $pass)
 	$userData = array();
 	$un = $mysqli->escape_string($username);
 	$pass = $mysqli->escape_string($pass);
-        $statement = "select * from users where screenname = '$un'";
+        $statement = "select * from users where userName = '$un' and password = '$pass'";
         $response = $mysqli->query($statement);
         while ($row = $response->fetch_assoc())
         {
@@ -22,11 +22,12 @@ function authUser($username, $pass)
                 if ($row["password"] == $pass)
                 {
 			echo "passwords match for $username".PHP_EOL;
-			$userData['username']=$response['userName'];
-			$userData['firstName']=$response['firstName'];
-			$userData['lastName']=$response['lastName'];
-			$userData['email'] = $response['email'];
+			$userData['username']=$row['userName'];
+			$userData['firstName']=$row['firstName'];
+			$userData['lastName']=$row['lastName'];
+			$userData['email'] = $row['email'];
 			$userData['session']="true";
+			echo json_encode ($userData);
 			return json_encode($userData);
                 }
                 echo "passwords did not match for $username".PHP_EOL;

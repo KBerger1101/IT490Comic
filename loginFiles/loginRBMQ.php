@@ -30,7 +30,6 @@ switch ($request["type"])
 		//print_r($response);
 		if($response)
 		{
-			$response=true;
 			echo $response;
 			exit(0);
 		}

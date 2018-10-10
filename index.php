@@ -61,7 +61,7 @@ function HandleLoginResponse(response)
 {
 	var text = response;
 	//document.getElementById("output").innerHTML = "response: "+text+"<p>";
-	if(text != 1){
+	if(text != false ){
 		window.location="/loginFiles/successPage.html";
 	}
 	else{
