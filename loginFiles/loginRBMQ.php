@@ -4,12 +4,14 @@ require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 //require_once('testRabbitMQ.ini');
 $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
-//$eClient = new rabbitMQClient("testRabbitMQ.ini","errorServer");
+$eClient = new rabbitMQClient("testRabbitMQ.ini","errorServer");
 if (!isset($_POST))
 {
-	$msg = "NO POST MESSAGE SET, POLITELY FUCK OFF";
-	//echo json_encode($msg);
-	//$response = $client ->send_request($msg);
+	$msg = "NO POST MESSAGE SET, FUCK OFF";
+	$request=  array();
+	$request['type'] = "error";
+	$request['msg'] = $msg;
+	$response = $eClient ->send_request($request);
 	echo $response;
 	exit(0);
 }
@@ -34,17 +36,19 @@ switch ($request["type"])
 		}
 		else{
 		
-			//$requestE = array();
-			//$requestE['type'] = 'error';
-			//$requestE['message'] = 'not valid user';
-			//$response = $eClient->send_request($requestE);
+			$requestE = array();
+			$requestE['type'] = 'error';
+			$requestE['message'] = 'not valid user';
+			$response = $eClient->send_request($requestE);
 			$response= false;
 			echo $response;
 			exit(0);
 		}
 		//if response ==true, user found
 		//if response ==false, user not found 
-	break;
+		break;
+	#case 
+		
 }
 echo json_encode($response);
 exit(0);

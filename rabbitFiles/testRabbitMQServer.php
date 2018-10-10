@@ -37,7 +37,7 @@ function authUser($username, $pass)
                 if ($row["password"] == $pass)
                 {
                         echo "passwords match for $username".PHP_EOL;
-			return 1;// password match
+			return true;// password match
                 }
                 echo "passwords did not match for $username".PHP_EOL;
         }
