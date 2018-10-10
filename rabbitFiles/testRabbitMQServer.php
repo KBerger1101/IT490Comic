@@ -3,8 +3,6 @@
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
-require_once('login.php.inc');
-
 function authUser($username, $pass)
 {
 	//set up database
@@ -13,22 +11,9 @@ function authUser($username, $pass)
 	$pw = 'password';
 	$db = 'testdb';
 	$mysqli = new mysqli($host, $user, $pw, $db);
-	$userInfo = array();
+	$userData = array();
 	$un = $mysqli->escape_string($username);
-	/*$results = $mysqli->query("SELECT * FROM users WHERE screenname='$username' and password='$pass'");
-	$user = $results->fetch_assoc();
-	if( $results->num_rows == 0 ) 
-	{
-		echo "WRONG INPUTS IDIOT";
-		return false;
-	}
-	else 
-	{
-		echo "CORRECT INPUTS GENIUS";
-		return true;
-	}*/
-	//$un = $this->logindb->real_escape_string($username);
-        //$pw = $this->logindb->real_escape_string($password);
+	$pass = $mysqli->escape_string($pass);
         $statement = "select * from users where screenname = '$un'";
         $response = $mysqli->query($statement);
         while ($row = $response->fetch_assoc())
@@ -36,24 +21,22 @@ function authUser($username, $pass)
                 echo "checking password for $username".PHP_EOL;
                 if ($row["password"] == $pass)
                 {
-                        echo "passwords match for $username".PHP_EOL;
-			return true;// password match
+			echo "passwords match for $username".PHP_EOL;
+			$userData['username']=$response['userName'];
+			$userData['firstName']=$response['firstName'];
+			$userData['lastName']=$response['lastName'];
+			$userData['email'] = $response['email'];
+			$userData['session']="true";
+			return json_encode($userData);
                 }
                 echo "passwords did not match for $username".PHP_EOL;
         }
         return false;//no users matched username
 
 }
-
-function doLogin($username,$password)
+function regUser($username, $pass, $email, $firstN, $lastN)
 {
-    // lookup username in databas
-    // check password
-    $login = new loginDB();
-    $response =  $login->validateLogin($username,$password);
-    echo $response;
-    return $response;
-    //return false if not valid
+
 }
 
 function requestProcessor($request)
@@ -68,8 +51,8 @@ function requestProcessor($request)
   {
     case "login":
       return authUser($request['username'],$request['password']);
-    case "validate_session":
-      return doValidate($request['sessionId']);
+    case "register":
+      return regUser($request['username'], $request['password'], $request['email'], $request['firstName'], $request['lastName']);
   }
   return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
