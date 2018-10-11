@@ -18,9 +18,9 @@ function requestProcessor($request)
 }
 
 $server = new rabbitMQServer("testRabbitMQ.ini","errorServer");
-echo "testRabbitMQServer BEGIN".PHP_EOL;
+echo "Error Server BEGIN".PHP_EOL;
 $server->process_requests('requestProcessor');
-echo "testRabbitMQServer END".PHP.EOL;
+echo "Error Server END".PHP.EOL;
 exit();
 ?>
 

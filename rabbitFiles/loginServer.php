@@ -3,7 +3,7 @@
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
-function authUser($username, $pass)
+function loginUser($username, $pass)
 {
 	//set up database
 	$host = 'localhost';
@@ -51,7 +51,7 @@ function requestProcessor($request)
   switch ($request['type'])
   {
     case "login":
-      return authUser($request['username'],$request['password']);
+      return loginUser($request['username'],$request['password']);
     case "register":
       return regUser($request['username'], $request['password'], $request['email'], $request['firstName'], $request['lastName']);
   }
@@ -59,9 +59,9 @@ function requestProcessor($request)
 }
 
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
-echo "testRabbitMQServer BEGIN".PHP_EOL;
+echo "login BEGIN".PHP_EOL;
 $server->process_requests('requestProcessor');
-echo "testRabbitMQServer END".PHP.EOL;
+echo "login END".PHP.EOL;
 exit();
 ?>
 
