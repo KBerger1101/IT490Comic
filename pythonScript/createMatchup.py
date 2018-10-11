@@ -52,7 +52,8 @@ def getCharData():
 
 def sendCharData(fullCharDetailURL, name, publisher):
     date = datetime.date.today() - timedelta(1)
-    date = date.isoformat().replace("-"," ")
+    date = date.strftime('%Y-%m-%d')
+    #date = date.isoformat().replace("-"," ")
     try:
         result = requests.get(fullCharDetailURL, headers=headers)
         resultJSON = json.loads(result.text)
@@ -76,15 +77,16 @@ def sendCharData(fullCharDetailURL, name, publisher):
         sendError(RABBIT_HOST, RABBIT_Q,RABBIT_USER, RABBIT_PASS, RABBIT_VH, eRABBIT_EX, RABBIT_PORT, date, errorMSG)
         print('REQUEST FAILED, TOO MANY KNOCKS?')
 
-
 def sendRequest(rabbitServer, rabbitQ, rabbitUser, rabbitPass, rabbitVHost, rabbitEx, rabbitPort, date, charID, name ,imgURL, powers, publisher):
-    rabbitMSG = json.dumps( {'date': date,
-                             'charID': charID,
-                             'name': name,
-                             'image': imgURL,
-                             'powers': powers,
-                             'publisher': publisher
-                             })      
+    
+    charDict= {'date': date,
+                'charID': charID,
+                'name': name,
+                'image': imgURL,
+                'powers': powers,
+                'publisher': publisher
+                }
+    rabbitMSG = json.dumps( charDict, sort_keys=True, indent=4, default=str)      
     creds = pika.PlainCredentials(rabbitUser, rabbitPass)
     connection = pika.BlockingConnection(pika.ConnectionParameters(rabbitServer, rabbitPort, rabbitVHost, creds))
     channel = connection.channel()
