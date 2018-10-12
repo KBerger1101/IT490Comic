@@ -117,8 +117,8 @@ function dailyMatchup($date)
 			$hero->charName=$h['charName'];
 			$hero->imgURL=$h['imgURL'];
 			$hero->powers= $powersArray;
-			$jHero = json_encode($hero);
-			array_push($DCHeroes,$jHero); 
+			#$jHero = json_encode(var_dump($hero));
+			array_push($DCHeroes,$hero); 
 		}
 	}
 	$idQuery= "SELECT * from MatchupTable where matchDate='$date' and publisher = 'Marvel'";
@@ -154,15 +154,15 @@ function dailyMatchup($date)
                 $hero->charName=$h['charName'];
                 $hero->imgURL=$h['imgURL'];
 		$hero->powers= $powersArray;
-		$jHero = json_encode($hero);
-                array_push($MarvelHeroes,$jHero);
+		#$jHero = json_encode($hero);
+                array_push($MarvelHeroes,$hero);
 	}
 	$matchUp = new matchup();
 	$matchUp->DC= $DCHeroes;
 	$matchUp->Marvel= $MarvelHeroes;
 	echo json_encode ($matchUp);
-	$sMatchup= json_encode(var_dump($matchUp));
-	echo json_decode ($sMatchup);
+	$sMatchup= json_encode($matchUp);
+	#echo json_decode ($sMatchup);
 	return json_encode($matchUp);
 
 }
@@ -193,7 +193,7 @@ function requestProcessor($request)
   switch ($request['type'])
   {
     case "login":
-	    dailyMatchup('2018-10-11');
+	    #dailyMatchup('2018-10-11');
 	    return loginUser($request['username'],$request['password']);
     case "register":
 	    return regUser($request['username'], $request['password'], $request['email'], $request['firstName'], $request['lastName']);
@@ -207,6 +207,7 @@ function requestProcessor($request)
 
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 echo "login BEGIN".PHP_EOL;
+dailyMatchup('2018-10-11');
 $server->process_requests('requestProcessor');
 echo "login END".PHP.EOL;
 exit();
