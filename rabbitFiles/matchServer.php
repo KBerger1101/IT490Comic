@@ -23,7 +23,7 @@ function storeHeroes($charID, $name, $imgURL, $publisher, $powers, $date)
 	 storePowers($charID, $powers);
 	}
 	#add to matchup table
-	storeMatchup($date,$charID);
+	storeMatchup($date,$charID, $publisher);
 	
 }
 function storePowers($charID, $powers)
@@ -39,14 +39,14 @@ function storePowers($charID, $powers)
 		$mysqli->query($query) or die($mysqli->error);
 	}
 }
-function storeMatchup($date, $charID)
+function storeMatchup($date, $charID, $pub)
 {
 	$host = 'localhost';
         $user = 'root';
         $pw = 'password';
         $db = 'testdb';
         $mysqli = new mysqli($host, $user, $pw, $db);
-	$query="INSERT INTO MatchupTable values('$date', '$charID')";
+	$query="INSERT INTO MatchupTable values('$date', '$charID', '$pub')";
 	$mysqli->query($query) or die($mysqli->error);
 }
 function requestProcessor($request)

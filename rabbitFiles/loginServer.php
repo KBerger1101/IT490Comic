@@ -14,6 +14,8 @@ function loginUser($username, $pass)
 	$userData = array();
 	$un = $mysqli->escape_string($username);
 	$pass = $mysqli->escape_string($pass);
+	#hash that shit
+	$pass= password_hash($pass, PASSWORD_DEFAULT);
         $statement = "select * from users where userName = '$un' and password = '$pass'";
         $response = $mysqli->query($statement);
         while ($row = $response->fetch_assoc())
@@ -37,8 +39,148 @@ function loginUser($username, $pass)
 }
 function regUser($username, $pass, $email, $firstN, $lastN)
 {
+	//set up database
+        $host = 'localhost';
+        $user = 'root';
+        $pw = 'password';
+        $db = 'testdb';
+        $mysqli = new mysqli($host, $user, $pw, $db);
+        $userData = array();
+        $un = $mysqli->escape_string($username);
+	$pass = $mysqli->escape_string($pass);
+	#hash that shit
+	$pass = password_hash($pass, PASSWORD_DEFAULT);
+	$email= $mysqli->escape_string($email);
+	$firstName = $mysqli->escape_string($firstN);
+	$lastName = $mysqli->escape_string($lastN);
+        $query = "select * from users where userName = '$un'";
+	$response = $mysqli->query($query);
+	if( $response->num_rows == 0)#account doesn't exist already, createone
+	{
+		$query="INSERT INTO users values('$email','$pass', '$firstName', '$lastName', '$un')";
+		$mysqli->query($query) or die($mysqli->error);
+		echo "Account created successfully";
+		echo "passwords match for $username".PHP_EOL;
+		$userData['username']=$un;
+		$userData['firstName']=$firstName;
+		$userData['lastName']=$lastName;
+		$userData['email'] = $email;
+                $userData['session']="true";#do I even need this? prob not
+                echo json_encode ($userData);
+                return json_encode($userData);
+	}
+	else #account already exists
+	{
+		return false;
+
+	}
+}
+function dailyMatchup($date)
+{
+	//set up database
+        $host = 'localhost';
+        $user = 'root';
+        $pw = 'password';
+        $db = 'testdb';
+	$mysqli = new mysqli($host, $user, $pw, $db);
+	#get general info from charTable
+	$idQuery= "SELECT * from MatchupTable where matchDate='$date' and publisher = 'DC Comics'";
+	$DCHeroes = array();
+	$results= $mysqli->query($idQuery) or die($mysqli->error);
+	while ($char = $results->fetch_assoc())
+	{
+		$charID = $char['charID'];
+		$heroQuery = "SELECT * from CharacterTable where charID = $charID";
+		$powerQuery= "SELECT * from charPowerTable where charID = $charID";
+		$powersArray =  array();
+		$presult = $mysqli->query($powerQuery) or die($mysqli->error);
+		if( $presult->num_rows == 0)
+		{
+			#no powers ):	
+		}
+		else
+		{
+			while($power = $presult->fetch_assoc())
+			{
+				$powerID = $power['powerID'];
+				$descQuery = "SELECT * from PowerTable where powerID = $powerID";
+				$dresult= $mysqli->query($descQuery) or die($mysqli->error);
+				$wrapped= $dresult->fetch_assoc();
+				array_push($powersArray, $wrapped);				
+			}
+		}
+		$hresult = $mysqli->query($heroQuery) or die($mysqli->error);
+		while($h  = $hresult->fetch_assoc())
+		{
+		
+			$hero = new hero();
+			$hero->charName=$h['charName'];
+			$hero->imgURL=$h['imgURL'];
+			$hero->powers= $powersArray;
+			$jHero = json_encode($hero);
+			array_push($DCHeroes,$jHero); 
+		}
+	}
+	$idQuery= "SELECT * from MatchupTable where matchDate='$date' and publisher = 'Marvel'";
+        $MarvelHeroes = array();
+        $results= $mysqli->query($idQuery) or die($mysqli->error);
+        while($char = $results->fetch_assoc())
+        {
+		$charID = $char['charID'];
+		echo $charID;
+                $heroQuery = "SELECT * from CharacterTable where charID = $charID";
+                $powerQuery= "SELECT * from charPowerTable where charID = $charID";
+                $powersArray = array();
+                $presult = $mysqli->query($powerQuery) or die($mysqli->error);
+                if( $presult->num_rows == 0)
+                {
+                        #no powers ):
+                }
+                else
+                {
+                        foreach($presult as $power)
+                        {
+                                $powerID = $power['powerID'];
+                                $descQuery = "SELECT * from PowerTable where powerID = $powerID";
+				$dresult= $mysqli->query($descQuery) or die($mysqli->error);
+				$d= $dresult->fetch_assoc();
+				$p = $d['powerDesc'];
+                                array_push($powersArray, $p);
+                        }
+                }
+                $hresult = $mysqli->query($heroQuery) or die($mysqli->error);
+		$hero = new hero();
+		$h= $hresult->fetch_assoc();
+                $hero->charName=$h['charName'];
+                $hero->imgURL=$h['imgURL'];
+		$hero->powers= $powersArray;
+		$jHero = json_encode($hero);
+                array_push($MarvelHeroes,$jHero);
+	}
+	$matchUp = new matchup();
+	$matchUp->DC= $DCHeroes;
+	$matchUp->Marvel= $MarvelHeroes;
+	echo json_encode ($matchUp);
+	$sMatchup= json_encode(var_dump($matchUp));
+	echo json_decode ($sMatchup);
+	return json_encode($matchUp);
 
 }
+
+class hero
+{
+	public $charName;
+	public $imgURL;
+	public $powers;
+	
+}
+class matchup
+{
+	public $DC;
+	public $Marvel;
+	function _construct(){}
+}
+
 
 function requestProcessor($request)
 {
@@ -51,9 +193,14 @@ function requestProcessor($request)
   switch ($request['type'])
   {
     case "login":
-      return loginUser($request['username'],$request['password']);
+	    dailyMatchup('2018-10-11');
+	    return loginUser($request['username'],$request['password']);
     case "register":
-      return regUser($request['username'], $request['password'], $request['email'], $request['firstName'], $request['lastName']);
+	    return regUser($request['username'], $request['password'], $request['email'], $request['firstName'], $request['lastName']);
+    case "dailyMatchup":
+	    return dailyMatchup($request['date']);
+    case "weeklyMatchup":
+	    return weeklyMatchup();
   }
   return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
