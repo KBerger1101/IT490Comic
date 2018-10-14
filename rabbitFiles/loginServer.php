@@ -7,7 +7,7 @@ function loginUser($username, $pass)
 {
 	//set up database
 	$host = 'localhost';
-	$user = 'root';
+	$user = 'admin';
 	$pw = 'password';
 	$db = 'testdb';
 	$mysqli = new mysqli($host, $user, $pw, $db);
@@ -41,7 +41,7 @@ function regUser($username, $pass, $email, $firstN, $lastN)
 {
 	//set up database
         $host = 'localhost';
-        $user = 'root';
+        $user = 'admin';
         $pw = 'password';
         $db = 'testdb';
         $mysqli = new mysqli($host, $user, $pw, $db);
@@ -79,7 +79,7 @@ function dailyMatchup($date)
 {
 	//set up database
         $host = 'localhost';
-        $user = 'root';
+        $user = 'admin';
         $pw = 'password';
         $db = 'testdb';
 	$mysqli = new mysqli($host, $user, $pw, $db);
@@ -164,6 +164,18 @@ function dailyMatchup($date)
 	$sMatchup= json_encode($matchUp);
 	#echo json_decode ($sMatchup);
 	return json_encode($matchUp);
+
+}
+function authenticate($userName)
+{
+	 //set up database
+        $host = 'localhost';
+        $user = 'admin';
+        $pw = 'password';
+        $db = 'testdb';
+	$mysqli = new mysqli($host, $user, $pw, $db);
+	#$query = "SELECT * from "
+	#WORK IN PROGRESS
 
 }
 

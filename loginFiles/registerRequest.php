@@ -1,5 +1,5 @@
 <?php
-require ('rabbitFiles/loginRBMQ.php'); #contains register client function
+require ('../rabbitFiles/loginRBMQ.php'); #contains register client function
 $userName= $_POST('username');
 $email = $_POST('email');
 $firstN= $_POST('firstName');

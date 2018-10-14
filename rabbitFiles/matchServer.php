@@ -42,7 +42,7 @@ function storePowers($charID, $powers)
 function storeMatchup($date, $charID, $pub)
 {
 	$host = 'localhost';
-        $user = 'root';
+        $user = 'admin';
         $pw = 'password';
         $db = 'testdb';
         $mysqli = new mysqli($host, $user, $pw, $db);
