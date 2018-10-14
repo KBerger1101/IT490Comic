@@ -1,0 +1,3 @@
+@reboot cd /home/kevin/git/IT490Comic/rabbitFiles/ && /home/kevin/git/IT490Comic/rabbitFiles/loginServer.php
+@reboot cd /home/kevin/git/IT490Comic/rabbitFiles/ && /home/kevin/git/IT490Comic/rabbitFiles/errorServer.php
+@reboot cd /home/kevin/git/IT490Comic/rabbitFiles/ && /home/kevin/git/IT490Comic/rabbitFiles/matchServer.php

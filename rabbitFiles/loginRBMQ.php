@@ -31,6 +31,7 @@ function errorThrow($msg)
 	$eClient = new rabbitMQClient("testRabbitMQ.ini","errorServer");
 	$request3= array();
 	$eDate = date_create();
+	$request3['type']= "error";
 	$request3['date'] = $eDate;
 	$request3['message'] =$msg;
 	$eClient->send_request($request3);

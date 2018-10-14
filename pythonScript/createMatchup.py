@@ -51,7 +51,7 @@ def getCharData():
         sendCharData(fullCharDetailURL, marvelCharacterName, "Marvel")
 
 def sendCharData(fullCharDetailURL, name, publisher):
-    date = datetime.date.today() - timedelta(1)
+    date = datetime.date.today()
     date = date.strftime('%Y-%m-%d')
     #date = date.isoformat().replace("-"," ")
     try:
@@ -68,10 +68,10 @@ def sendCharData(fullCharDetailURL, name, publisher):
             powers.append(powerID)
         print(powers)
         #error catch? 
-        errorMSG = "Just a test"
+        #errorMSG = "Just a test"
         sendRequest(RABBIT_HOST, RABBIT_Q,RABBIT_USER, RABBIT_PASS, RABBIT_VH, RABBIT_EX, RABBIT_PORT, date, charID, name, imgURL, powers,publisher)
         #just for testing error collection
-        sendError(RABBIT_HOST, RABBIT_Q,RABBIT_USER, RABBIT_PASS, RABBIT_VH, eRABBIT_EX, RABBIT_PORT, date, errorMSG)
+        #sendError(RABBIT_HOST, RABBIT_Q,RABBIT_USER, RABBIT_PASS, RABBIT_VH, eRABBIT_EX, RABBIT_PORT, date, errorMSG)
     except requests.exceptions.RequestException:
         errorMSG = "API request failed" 
         sendError(RABBIT_HOST, RABBIT_Q,RABBIT_USER, RABBIT_PASS, RABBIT_VH, eRABBIT_EX, RABBIT_PORT, date, errorMSG)
@@ -93,7 +93,8 @@ def sendRequest(rabbitServer, rabbitQ, rabbitUser, rabbitPass, rabbitVHost, rabb
     channel.basic_publish(exchange=rabbitEx, routing_key=rabbitQ, body=rabbitMSG)
 
 def sendError(rabbitServer, rabbitQ, rabbitUser, rabbitPass, rabbitVHost, rabbitEx, rabbitPort, date, msg):
-    rabbitMSG = json.dumps( {'date': date,
+    rabbitMSG = json.dumps( {'type': 'error',
+                             'date': date,
                              'msg' : msg
                             })
     creds = pika.PlainCredentials(rabbitUser, rabbitPass)
