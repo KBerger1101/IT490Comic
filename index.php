@@ -71,7 +71,7 @@ function HandleLoginResponse(response)
 function sendLoginRequest(username,password)
 {
 	var request = new XMLHttpRequest();
-	request.open("POST","/loginFiles/loginRBMQ.php",true);
+	request.open("POST","/loginFiles/loginRequest.php",true);
 	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	request.onreadystatechange= function ()
 	{

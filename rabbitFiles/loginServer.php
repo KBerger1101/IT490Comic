@@ -15,7 +15,7 @@ function loginUser($username, $pass)
 	$un = $mysqli->escape_string($username);
 	$pass = $mysqli->escape_string($pass);
 	#hash that shit
-	$pass= password_hash($pass, PASSWORD_DEFAULT);
+	#$pass= password_hash($pass, PASSWORD_DEFAULT);
         $statement = "select * from users where userName = '$un' and password = '$pass'";
         $response = $mysqli->query($statement);
         while ($row = $response->fetch_assoc())
@@ -193,7 +193,6 @@ function requestProcessor($request)
   switch ($request['type'])
   {
     case "login":
-	    #dailyMatchup('2018-10-11');
 	    return loginUser($request['username'],$request['password']);
     case "register":
 	    return regUser($request['username'], $request['password'], $request['email'], $request['firstName'], $request['lastName']);
@@ -201,13 +200,15 @@ function requestProcessor($request)
 	    return dailyMatchup($request['date']);
     case "weeklyMatchup":
 	    return weeklyMatchup();
+    case "authenticate":
+	    return authUser($request['username']);
   }
   return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
 
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 echo "login BEGIN".PHP_EOL;
-dailyMatchup('2018-10-11');
+#dailyMatchup('2018-10-11');
 $server->process_requests('requestProcessor');
 echo "login END".PHP.EOL;
 exit();

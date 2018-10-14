@@ -1,7 +1,8 @@
 <?php 
-require ('rabbitFiles/loginRBMQ.php');#contains login client function
-$userName= $_POST('username');
-$pass= $_POST('password');
+require ('../rabbitFiles/loginRBMQ.php');#contains login client function
+$request= $_POST;
+$userName= $request['uname'];
+$pass= $request['pword'];
 $response = login($userName,$pass);
 
 if ($response != false)#login successful!
