@@ -1,8 +1,8 @@
 <?php 
-require ('../rabbitFiles/loginRBMQ.php');#contains login client function
-$request= $_POST;
-$userName= $request['uname'];
-$pass= $request['pword'];
+require ('rabbitFiles/loginRBMQ.php');#contains login client function
+
+$userName= $_POST['uname'];
+$pass= $_POST['pword'];
 $response = login($userName,$pass);
 
 if ($response != false)#login successful!
@@ -21,6 +21,7 @@ else
 {
 	#handle error throwing
 	$errorMSG = "Login Failed!";
+	echo "$errorMSG";
 	errorThrow($errorMSG);
 	header("location: index.php");
 }

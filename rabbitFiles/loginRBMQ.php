@@ -13,14 +13,15 @@ function login($username,$pass)
 	$response = $client->send_request($request1);
 	return $response;
 }
-function registration($userN,$email, $pass,$firstN,$lastN)
+function register($userN,$email, $pass,$firstN,$lastN)
 {
 	$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
 	#$eClient = new rabbitMQClient("testRabbitMQ.ini","errorServer");
 	$request2 = array();
 	$request2['type']="register";
-	$request2['username'] = $username;
+	$request2['username'] = $userN;
 	$request2['email'] = $email;
+	$request2['password']= $pass;
 	$request2['firstName'] = $firstN;
 	$request2['lastName'] = $lastN;
 	$response = $client->send_request($request2);

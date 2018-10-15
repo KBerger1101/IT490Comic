@@ -5,6 +5,8 @@ import json
 import random
 import datetime
 from datetime import timedelta
+import time
+#rabbit shit
 RABBIT_HOST = '127.0.0.1'
 RABBIT_PORT = 5672
 RABBIT_Q = '*'
@@ -51,9 +53,10 @@ def getCharData():
         sendCharData(fullCharDetailURL, marvelCharacterName, "Marvel")
 
 def sendCharData(fullCharDetailURL, name, publisher):
-    date = datetime.date.today()
-    date = date.strftime('%Y-%m-%d')
+    #date = datetime.date.today()
+    #date = date.strftime('%Y-%m-%d')
     #date = date.isoformat().replace("-"," ")
+    date = int(time.time())
     try:
         result = requests.get(fullCharDetailURL, headers=headers)
         resultJSON = json.loads(result.text)

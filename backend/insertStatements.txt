@@ -3,5 +3,5 @@ Create  Table charPowerTable(charID varchar(30), powerID varchar(30)) Engine = I
 Create  Table CharacterTable(charID varchar(30), charName varchar(60), imgURL varChar(120), publisher varChar(20),  PRIMARY KEY (charID)) Engine = InnoDB;
 Create  Table PowerTable(powerID varchar(30), powerDesc varchar(30), PRIMARY KEY (powerID)) Engine = InnoDB;
 Create Table users(email varchar(255), password varchar(255), firstName varchar(40), lastName varchar(40), userName varchar(40), PRIMARY KEY (email)) Engine = InnoDB;
-Create Table MatchupTable(matchDate date, charID varchar(30), publisher varchar(30)) Engine = InnoDB;
+Create Table MatchupTable(matchDate bigint, charID varchar(30), publisher varchar(30)) Engine = InnoDB;
 Create Table winTable(matchDate date, publisher varchar(30)) Engine= InnoDB;

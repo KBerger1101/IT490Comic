@@ -15,7 +15,7 @@ function loginUser($username, $pass)
 	$un = $mysqli->escape_string($username);
 	$pass = $mysqli->escape_string($pass);
 	#hash that shit
-	#$pass= password_hash($pass, PASSWORD_DEFAULT);
+	$pass= hash('sha256', $pass);
         $statement = "select * from users where userName = '$un' and password = '$pass'";
         $response = $mysqli->query($statement);
         while ($row = $response->fetch_assoc())
@@ -49,7 +49,7 @@ function regUser($username, $pass, $email, $firstN, $lastN)
         $un = $mysqli->escape_string($username);
 	$pass = $mysqli->escape_string($pass);
 	#hash that shit
-	$pass = password_hash($pass, PASSWORD_DEFAULT);
+	$pass = hash('sha256',$pass);
 	$email= $mysqli->escape_string($email);
 	$firstName = $mysqli->escape_string($firstN);
 	$lastName = $mysqli->escape_string($lastN);

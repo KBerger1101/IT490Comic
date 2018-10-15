@@ -1,11 +1,11 @@
 <?php
-require ('../rabbitFiles/loginRBMQ.php'); #contains register client function
-$userName= $_POST('username');
-$email = $_POST('email');
-$firstN= $_POST('firstName');
-$lastN= $_POST('lastName');
-$pass= $_POST('password');
-$response = register($userName,$email, $pass, $firstN, $lastN);
+require ('rabbitFiles/loginRBMQ.php'); #contains register client function
+$username= $_POST['username'];
+$email = $_POST['email'];
+$firstN= $_POST['firstName'];
+$lastN= $_POST['lastName'];
+$pass= $_POST['password'];
+$response = register($username,$email, $pass, $firstN, $lastN);
 
 if ($response != false) #account creation successful, login!
 {
@@ -16,14 +16,15 @@ if ($response != false) #account creation successful, login!
 	$_SESSION['lastName'] = $sessionData['lastname'];
 	#if includes hasvoted set to false
 	
-	header("location: /loginFiles/choosePage.php");
+	header("location: /loginFiles/successPage.html");
 }
 else
 {
 	#handle error throwing
 	$errorMSG= "Account for email already exists";
+	echo "$errorMSG";
 	errorThrow($errorMSG);
 
 	header("location: index.php");
 }
-?>
+
