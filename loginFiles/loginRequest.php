@@ -9,13 +9,14 @@ if ($response != false)#login successful!
 {
 	$sessionData = json_decode($response, true); #get data from rabbitMQ
 	$_SESSION['isLogged'] = true;
-	$_SESSION['userName'] = $sessionData['username'];
+	$_SESSION['username'] = $sessionData['username'];
 	$_SESSION['firstName'] = $sessionData['firstname'];
 	$_SESSION['lastName'] = $sessionData['lastname'];
+	$_SESSION['sessionID']=$sessionData['sessionID'];
 	#include hasvoted info here??
 
 
-	header("location: /loginFiles/successPage.html");
+	header("location: /loginFiles/successPage.php");
 }
 else
 {

@@ -28,7 +28,8 @@ function loginUser($username, $pass)
 			$userData['firstName']=$row['firstName'];
 			$userData['lastName']=$row['lastName'];
 			$userData['email'] = $row['email'];
-			$userData['session']="true";
+			$sessionID = updateSession($row['userName']);
+			$userData['sessionID']=$sessionID;
 			echo json_encode ($userData);
 			return json_encode($userData);
                 }
@@ -65,7 +66,8 @@ function regUser($username, $pass, $email, $firstN, $lastN)
 		$userData['firstName']=$firstName;
 		$userData['lastName']=$lastName;
 		$userData['email'] = $email;
-                $userData['session']="true";#do I even need this? prob not
+		$sessionID= createSession($un);
+                $userData['sessionID']=$sessionID;#do I even need this? prob not
                 echo json_encode ($userData);
                 return json_encode($userData);
 	}
@@ -74,6 +76,35 @@ function regUser($username, $pass, $email, $firstN, $lastN)
 		return false;
 
 	}
+}
+function createSession($username)
+{
+	//set up database
+        $host = 'localhost';
+        $user = 'admin';
+        $pw = 'password';
+        $db = 'testdb';
+	$mysqli = new mysqli($host, $user, $pw, $db);
+	$sDate = time();
+	$sessionKey= hash('sha256', $username.$sDate);
+	$query = "insert into sessionTable values('$username','$sessionKey',$sDate, 'true')";
+        $mysqli->query($query);
+        return $sessionKey;
+
+}
+function updateSession($username)
+{
+	//set up database
+        $host = 'localhost';
+        $user = 'admin';
+        $pw = 'password';
+        $db = 'testdb';
+	$mysqli = new mysqli($host, $user, $pw, $db);
+	$sDate = time();
+	$sessionKey = hash('sha256',$username.$sDate);
+	$query = "update sessionTable set isValid='true', sessionKey = '$sessionKey', sessDate= '$sDate' where userName='$username'";
+	$mysqli->query($query);
+	return $sessionKey;
 }
 function dailyMatchup($date)
 {
@@ -166,7 +197,7 @@ function dailyMatchup($date)
 	return json_encode($matchUp);
 
 }
-function authenticate($userName)
+function authUser($userName,$sessionID)
 {
 	 //set up database
         $host = 'localhost';
@@ -174,8 +205,24 @@ function authenticate($userName)
         $pw = 'password';
         $db = 'testdb';
 	$mysqli = new mysqli($host, $user, $pw, $db);
-	#$query = "SELECT * from "
-	#WORK IN PROGRESS
+	$statement = "select * from sessionTable where userName = '$userName'";
+        $response = $mysqli->query($statement);
+        while ($row = $response->fetch_assoc())
+        {
+                if ($row["sessionKey"] == $sessionID)
+                {
+                        echo "sessionID match for $username".PHP_EOL;
+                        $userData['username']=$row['userName'];
+                        $userData['sessionID']=$sessionID;
+                        echo json_encode ($userData);
+                        return json_encode($userData);
+		}
+		else
+		{
+			echo "sessionID did not match".PHP_EOL;
+			return false;
+		}
+	}
 
 }
 
@@ -212,15 +259,14 @@ function requestProcessor($request)
 	    return dailyMatchup($request['date']);
     case "weeklyMatchup":
 	    return weeklyMatchup();
-    case "authenticate":
-	    return authUser($request['username']);
+    case "validate":
+	    return authUser($request['username'],$request['sessionID']);
   }
   return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
 
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 echo "login BEGIN".PHP_EOL;
-#dailyMatchup('2018-10-11');
 $server->process_requests('requestProcessor');
 echo "login END".PHP.EOL;
 exit();

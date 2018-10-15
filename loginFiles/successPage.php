@@ -1,0 +1,13 @@
+<?php
+session_start();
+require ('checkSession.php');
+?>
+<html>
+<h1>login page</h1>
+<body>
+<div id="textResponse">
+if you see this you are logged in
+</div>
+</body>
+</html>
+~          

@@ -37,3 +37,13 @@ function errorThrow($msg)
 	$request3['message'] =$msg;
 	$eClient->send_request($request3);
 }
+function validateSession($userName,$sessionID)
+{
+	$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+	$request4= array();
+	$request4['type']="validate";
+	$request4['username']= $userName;
+	$request4['sessionID']= $sessionID;
+	$response= $client->send_request($request4);
+	return $response;
+}

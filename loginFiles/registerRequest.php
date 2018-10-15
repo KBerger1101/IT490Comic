@@ -11,12 +11,13 @@ if ($response != false) #account creation successful, login!
 {
 	$sessionData= json_decode($response,true);
 	$_SESSION['isLogged']=true;
-	$_SESSION['userName']=$sessionData['username'];
+	$_SESSION['username']=$sessionData['username'];
 	$_SESSION['firstName'] = $sessionData['firstname'];
 	$_SESSION['lastName'] = $sessionData['lastname'];
+	$_SESSION['sessionID'] = $sessionData['sessionID'];
 	#if includes hasvoted set to false
 	
-	header("location: /loginFiles/successPage.html");
+	header("location: /loginFiles/successPage.php");
 }
 else
 {
