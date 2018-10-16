@@ -7,6 +7,7 @@ require ('checkSession.php');
 <body>
 <div id="textResponse">
 if you see this you are logged in
+<a href="logout.php"><button>LOGOUT</button></a>
 </div>
 </body>
 </html>

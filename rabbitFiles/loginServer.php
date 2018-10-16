@@ -205,14 +205,22 @@ function authUser($userName,$sessionID)
         $pw = 'password';
         $db = 'testdb';
 	$mysqli = new mysqli($host, $user, $pw, $db);
+	if($userName==NULL)
+	{
+		return false;
+	}
+	if($sessionID ==NULL)
+	{
+		return false;
+	}
 	$statement = "select * from sessionTable where userName = '$userName'";
         $response = $mysqli->query($statement);
         while ($row = $response->fetch_assoc())
         {
                 if ($row["sessionKey"] == $sessionID)
                 {
-                        echo "sessionID match for $username".PHP_EOL;
-                        $userData['username']=$row['userName'];
+                        echo "sessionID match for $userName".PHP_EOL;
+                        $userData['username']=$userName;
                         $userData['sessionID']=$sessionID;
                         echo json_encode ($userData);
                         return json_encode($userData);
