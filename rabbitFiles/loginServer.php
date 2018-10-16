@@ -16,8 +16,8 @@ function loginUser($username, $pass)
 	$pass = $mysqli->escape_string($pass);
 	#hash that shit
 	$pass= hash('sha256', $pass);
-        $statement = "select * from users where userName = '$un' and password = '$pass'";
-        $response = $mysqli->query($statement);
+        $query = "select * from users where userName = '$un' and password = '$pass'";
+        $response = $mysqli->query($query);
         while ($row = $response->fetch_assoc())
         {
                 echo "checking password for $username".PHP_EOL;
@@ -28,8 +28,23 @@ function loginUser($username, $pass)
 			$userData['firstName']=$row['firstName'];
 			$userData['lastName']=$row['lastName'];
 			$userData['email'] = $row['email'];
+			#UPDATE USER SESSION
 			$sessionID = updateSession($row['userName']);
 			$userData['sessionID']=$sessionID;
+			#GET POINTS
+			$query= "SELECT * from PointTable where userName='$un'";
+			$response = $mysqli->query($query);
+			while ($row1= $response->fetch_assoc())
+			{
+				$userData['points'] = $row1['totalPoints'];
+			}
+			#GET TOKENS
+			$query= "SELECT * FROM TokenTable where userName='$un'";
+			$response = $mysqli->query($query);
+                        while ($row2= $response->fetch_assoc())
+                        {
+                                $userData['points'] = $row2['availTokens'];
+                        }
 			echo json_encode ($userData);
 			return json_encode($userData);
                 }
@@ -67,7 +82,15 @@ function regUser($username, $pass, $email, $firstN, $lastN)
 		$userData['lastName']=$lastName;
 		$userData['email'] = $email;
 		$sessionID= createSession($un);
-                $userData['sessionID']=$sessionID;#do I even need this? prob not
+		$userData['sessionID']=$sessionID;
+		#insert tokens here 
+		$userData['tokens']= 1000;
+		$userData['points'] = 0;
+		$query="INSERT INTO PointTable values('$un', 0, '')";
+		$mysqli->query($query) or die($mysqli->error);
+		$query="INSERT INTO TokenTable values ('$un', 1000)";
+		$mysqli->query($query) or die($mysqli->error);
+
                 echo json_encode ($userData);
                 return json_encode($userData);
 	}
