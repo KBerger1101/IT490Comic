@@ -53,5 +53,5 @@ function getDaily()
 	$request5 = array();
 	$request5['type']="dailyMatchup";
 	$response= $client->send_request($request5);
-	return json_decode($response);
+	return $response;
 }
