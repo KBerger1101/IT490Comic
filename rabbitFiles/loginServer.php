@@ -129,7 +129,7 @@ function updateSession($username)
 	$mysqli->query($query);
 	return $sessionKey;
 }
-function dailyMatchup($date)
+function dailyMatchup()
 {
 	//set up database
         $host = 'localhost';
@@ -138,7 +138,7 @@ function dailyMatchup($date)
         $db = 'testdb';
 	$mysqli = new mysqli($host, $user, $pw, $db);
 	#get general info from charTable
-	$idQuery= "SELECT * from MatchupTable where matchDate='$date' and publisher = 'DC Comics'";
+	$idQuery= "SELECT * from MatchupTable  where  publisher = 'DC Comics'";
 	$DCHeroes = array();
 	$results= $mysqli->query($idQuery) or die($mysqli->error);
 	while ($char = $results->fetch_assoc())
@@ -175,7 +175,7 @@ function dailyMatchup($date)
 			array_push($DCHeroes,$hero); 
 		}
 	}
-	$idQuery= "SELECT * from MatchupTable where matchDate='$date' and publisher = 'Marvel'";
+	$idQuery= "SELECT * from MatchupTable where publisher = 'Marvel'";
         $MarvelHeroes = array();
         $results= $mysqli->query($idQuery) or die($mysqli->error);
         while($char = $results->fetch_assoc())
@@ -287,7 +287,7 @@ function requestProcessor($request)
     case "register":
 	    return regUser($request['username'], $request['password'], $request['email'], $request['firstName'], $request['lastName']);
     case "dailyMatchup":
-	    return dailyMatchup($request['date']);
+	    return dailyMatchup();
     case "weeklyMatchup":
 	    return weeklyMatchup();
     case "validate":

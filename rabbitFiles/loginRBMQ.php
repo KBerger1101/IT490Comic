@@ -47,3 +47,11 @@ function validateSession($userName,$sessionID)
 	$response= $client->send_request($request4);
 	return $response;
 }
+function getDaily()
+{
+	$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+	$request5 = array();
+	$request5['type']="dailyMatchup";
+	$response= $client->send_request($request5);
+	return json_decode($response);
+}
