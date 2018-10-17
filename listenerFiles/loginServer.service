@@ -1,6 +1,6 @@
 [Unit]
 Description=loginSystem start up?
-After=network.target
+Requires=mysql.service apache2.service
 StartLimitInervalSec=0
 
 [Service]

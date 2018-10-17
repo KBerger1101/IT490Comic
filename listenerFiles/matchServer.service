@@ -1,6 +1,6 @@
 [Unit]
-Description=matchSystem start up?
-After=network.target
+Description=matchServer start up?
+Requires=mysql.service apache2.service
 StartLimitInervalSec=0
 
 [Service]
