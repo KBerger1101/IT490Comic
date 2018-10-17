@@ -1,0 +1,14 @@
+[Unit]
+Description=loginSystem start up?
+After=network.target
+StartLimitInervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=kevin
+ExecStart= /home/kevin/git/IT490Comic/rabbitFiles/loginServer.php
+
+[Install]
+WantedBy=multi-user.target
