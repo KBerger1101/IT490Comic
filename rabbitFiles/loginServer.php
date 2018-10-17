@@ -258,12 +258,57 @@ function authUser($userName,$sessionID)
 }
 function vote($userName, $vote)
 {
+	$host = 'localhost';
+        $user = 'admin';
+        $pw = 'password';
+        $db = 'testdb';
+        $mysqli = new mysqli($host, $user, $pw, $db);
+	#check if voted already
+	$statement = "select * from PointTable where userName = '$userName'";
+        $response = $mysqli->query($statement);
+        while ($row = $response->fetch_assoc())
+        {
+                if ($row["vote"] == "")
+                {
+                        echo "user not voted, checking tokens".PHP_EOL;
+			$query="select * from TokenTable where availTokens>=100";
+			$response= $mysqli->query($query);
+			while ($row1= $response->fetch_assoc())
+			{
+				if($row1["userName"]==$userName)
+				{
+					echo "enough tokens, submitting vote".PHP_EOL;
+					$query="update TokenTable set availTokens= availTokens-100 where userName= '$userName'";
+					$mysqli->query($query);
+					$query="update PointTable set vote='$vote' where userName='$userName'";
+					$mysqli->query($query);
+					echo "submitted vote".PHP_EOL;
+					$query="update jackpot set totalTokens=totalTokens+100";
+					$mysqli->query($query);
+					echo "added to jackpot";
+					return true;
+				}
+				else
+				{
+					echo "not enough tokens".PHP_EOL;
+					return false;
+				}
+			}
+                }
+                else
+                {
+                        echo "user already voted, updating vote".PHP_EOL;
+			$query = "update PointTable set vote='$vote' where userName = '$userName'";
+			$mysqli->query($query);
+			return true;
+                }
+        }
+	#check if voted
 	#check Tokens in TokenTable (availTokens)
 	#remove 100 tokens in TokenTable
 	#update (vote) in PointTable where userName = userName
 	#update jackpot update totalTokens +=100
-	#return true if successful
-	#return false if not enough tokens
+	
 }
 
 class hero

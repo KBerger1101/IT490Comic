@@ -17,6 +17,13 @@ echo $_SESSION['heroData'];
 if you see this you should see matchup, vote below
 <a href="logout.php"><button>LOGOUT</button></a>
 </div>
+
+<form action='vote.php' method="POST">
+<input type="radio" name="vote" value="DC">Vote DC<br>
+<input type="radio" name="vote" value="Marvel">Vote Marvel<br>
+<button>Submit Vote</button>
+
+</form>
 </body>
 </html>
 
