@@ -62,6 +62,7 @@ function vote($userName, $vote)
 	$request6['type']="vote";
 	$request6['username']=$userName;
 	$request6['vote']=$vote; 
-	$client->send_request($request6);
+	$response=$client->send_request($request6);
+	return $response;
 
 }

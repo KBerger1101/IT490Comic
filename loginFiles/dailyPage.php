@@ -3,6 +3,19 @@ session_start();
 require_once $_SERVER['DOCUMENT_ROOT'].'/checkSession.php';
 require('getDaily.php');
 ?>
+<?php
+if $_SERVER['REQUEST_METHOD']=='POST')
+{
+	if (isset($_POST['vote']))
+	{
+		require_once $_SERVER['DOCUMENT_ROOT'].'/loginFiles/vote.php';
+
+
+	}
+}
+
+
+?>
 <html>
 <h1>matchup</h1>
 <body>

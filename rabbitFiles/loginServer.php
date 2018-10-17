@@ -256,6 +256,15 @@ function authUser($userName,$sessionID)
 	}
 
 }
+function vote($userName, $vote)
+{
+	#check Tokens in TokenTable (availTokens)
+	#remove 100 tokens in TokenTable
+	#update (vote) in PointTable where userName = userName
+	#update jackpot update totalTokens +=100
+	#return true if successful
+	#return false if not enough tokens
+}
 
 class hero
 {
@@ -292,6 +301,8 @@ function requestProcessor($request)
 	    return weeklyMatchup();
     case "validate":
 	    return authUser($request['username'],$request['sessionID']);
+    case "vote":
+	    return vote($request['username'], $request['vote']);
   }
   return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
