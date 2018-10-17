@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('../checkSession.php');
+require_once $_SERVER['DOCUMENT_ROOT'].'/checkSession.php';
 require('getDaily.php');
 ?>
 <html>

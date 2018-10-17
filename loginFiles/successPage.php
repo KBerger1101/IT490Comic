@@ -1,6 +1,7 @@
 <?php
 session_start();
-require ('../checkSession.php');
+require_once $_SERVER['DOCUMENT_ROOT'].'/checkSession.php';
+
 ?>
 <html>
 <h1>login page</h1>

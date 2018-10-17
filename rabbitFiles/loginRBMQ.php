@@ -55,3 +55,13 @@ function getDaily()
 	$response= $client->send_request($request5);
 	return $response;
 }
+function vote($userName, $vote)
+{
+	$client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
+	$request6= array();
+	$request6['type']="vote";
+	$request6['username']=$userName;
+	$request6['vote']=$vote; 
+	$client->send_request($request6);
+
+}
