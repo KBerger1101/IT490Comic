@@ -1,7 +1,7 @@
 [Unit]
 Description=loginSystem start up?
-Requires=mysql.service apache2.service
-StartLimitInervalSec=0
+After=mysqld.service apache2.service
+StartLimitIntervalSec=0
 
 [Service]
 Type=simple

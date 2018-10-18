@@ -1,7 +1,7 @@
 [Unit]
 Description=matchServer start up?
 Requires=mysql.service apache2.service
-StartLimitInervalSec=0
+StartLimitIntervalSec=0
 
 [Service]
 Type=simple

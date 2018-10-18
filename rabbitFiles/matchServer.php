@@ -8,7 +8,7 @@ require_once('rabbitMQLib.inc');
 function storeHeroes($charID, $name, $imgURL, $publisher, $powers, $date)
 {
 
-	file_put_contents('char.log', $name.PHP_EOL, FILE_APPEND);
+	#file_put_contents('char.log', $name.PHP_EOL, FILE_APPEND);
 	$host = 'localhost';
         $user = 'root';
         $pw = 'password';
