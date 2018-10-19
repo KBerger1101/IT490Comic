@@ -288,12 +288,10 @@ function vote($userName, $vote)
 					echo "added to jackpot";
 					return true;
 				}
-				else
-				{
-					echo "not enough tokens".PHP_EOL;
-					return false;
-				}
+				
 			}
+			echo "not enough tokens".PHP_EOL;
+			return false;
                 }
                 else
                 {
