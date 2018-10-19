@@ -22,8 +22,8 @@ else
 {
 	#handle error throwing
 	$errorMSG = "Login Failed!";
-	echo "$errorMSG";
+	echo "<p>$errorMSG</p>";
 	errorThrow($errorMSG);
-	header("location: index.php");
+	#header("location: index.php");
 }
 

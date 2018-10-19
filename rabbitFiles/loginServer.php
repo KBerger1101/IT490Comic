@@ -248,12 +248,9 @@ function authUser($userName,$sessionID)
                         echo json_encode ($userData);
                         return json_encode($userData);
 		}
-		else
-		{
-			echo "sessionID did not match".PHP_EOL;
-			return false;
-		}
 	}
+	echo "sessionID did not match".PHP_EOL;
+	return false;
 
 }
 function vote($userName, $vote)

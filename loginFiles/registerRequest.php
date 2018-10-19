@@ -22,10 +22,9 @@ if ($response != false) #account creation successful, login!
 else
 {
 	#handle error throwing
-	$errorMSG= "Account for email already exists";
-	echo "$errorMSG";
+	$errorMSG= "Account name already exists, please try again";
+	echo "<p>$errorMSG</p>";
 	errorThrow($errorMSG);
-
-	header("location: index.php");
+	#header("location: index.php");
 }
 

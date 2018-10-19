@@ -1,7 +1,10 @@
 <?php
 session_start();
 require_once $_SERVER['DOCUMENT_ROOT'].'/checkSession.php';
-require('getDaily.php');
+if ($_SESSION['heroData'] == null)
+{
+	require('getDaily.php');
+}
 ?>
 
 <html>
@@ -9,9 +12,9 @@ require('getDaily.php');
 <body>
 <?php
 #print_r($sessionData);
-echo $sessionData['DC'][0]['charName'];
-echo "<img src =".$sessionData['DC'][0]['imgURL'].">";
-echo $_SESSION['heroData'];
+echo $_SESSION['heroData']['DC'][0]['charName'];
+echo "<img src =".$_SESSION['heroData']['DC'][0]['imgURL'].">";
+
 ?>
 <div id="textResponse">
 if you see this you should see matchup, vote below

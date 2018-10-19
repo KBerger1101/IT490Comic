@@ -34,7 +34,7 @@ function errorThrow($msg)
 	$eDate = date_create();
 	$request3['type']= "error";
 	$request3['date'] = $eDate;
-	$request3['message'] =$msg;
+	$request3['msg'] =$msg;
 	$eClient->send_request($request3);
 }
 function validateSession($userName,$sessionID)

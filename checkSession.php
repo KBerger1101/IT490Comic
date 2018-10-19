@@ -10,6 +10,9 @@ if ($response != false)#authentication successful!!
 }
 else
 {
+	$errorMSG ="Failed to authenticate session, please login!";
+	echo "<p>$errorMSG</p>";
+	errorThrow($errorMSG);
 	sleep(5);
 	header("location: ../index.php");
 }
