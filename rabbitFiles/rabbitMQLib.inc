@@ -13,6 +13,7 @@ function logger($type,$eDate, $msg)
 		#store locally first, then send to rabbitMQ
 		$eDate = time();
 		file_put_contents('error.log', "[".$eDate."]".$msg.PHP_EOL,FILE_APPEND);
+		echo "Should send to rabbit".PHP_EOL;
 		$eClient = new rabbitMQClient("testRabbitMQ.ini","errorServer");
 		$request = array();
 		$request['type']= "error";

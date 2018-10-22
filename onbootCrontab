@@ -1,3 +1,0 @@
-@reboot  /usr/bin/php /home/kevin/git/IT490Comic/rabbitFiles/loginServer.php
-@reboot  /usr/bin/php /home/kevin/git/IT490Comic/rabbitFiles/errorServer.php
-@reboot  /usr/bin/php /home/kevin/git/IT490Comic/rabbitFiles/matchServer.php

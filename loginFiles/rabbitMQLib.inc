@@ -2,6 +2,25 @@
 
 require_once('get_host_info.inc');
 
+function logger($type,$eDate, $msg)
+{
+	if ($type= "rabbit")
+	{
+		file_put_contents('error.log', "[".$eDate."]".$msg.PHP_EOL, FILE_APPEND);
+	}
+	elseif($type = "db")
+	{
+		#store locally first, then send to rabbitMQ
+		$eDate = time();
+		file_put_contents('error.log', "[".$eDate."]".$msg.PHP_EOL,FILE_APPEND);
+		$eClient = new rabbitMQClient("testRabbitMQ.ini","errorServer");
+		$request = array();
+		$request['type']= "error";
+		$request['date']= $eDate;
+		$request['msg']= $msg;
+		$eClient->send_request($request);
+	}
+}
 class rabbitMQServer
 {
 	private $machine = "";
@@ -83,7 +102,10 @@ class rabbitMQServer
 		catch(Exception $e)
 		{
 			// ampq throws exception if get fails...
-            echo "error: rabbitMQServer: process_message: exception caught: ".$e;
+            		$eMSG =  "error: rabbitMQServer: process_message: exception caught: ".$e;
+			echo $eMSG;
+			$eDate= time();
+			logger("rabbit",$eDate,$eMSG);
 		}
 		// message does not require a response, send ack immediately
 		$body = $msg->getBody();
@@ -129,6 +151,10 @@ class rabbitMQServer
 		}
 		catch (Exception $e)
 		{
+			$eMSG = "Failed to start request processor: ".$e;
+			echo $eMSG;
+			$eDate= time();
+                        logger("rabbit",$eDate,$eMSG);
 			trigger_error("Failed to start request processor: ".$e,E_USER_ERROR); 
 		}
 	}
@@ -229,6 +255,10 @@ class rabbitMQClient
 		}
 		catch(Exception $e)
 		{
+			$eMSG = "failed to send message to exchange: ".$e->getMessage();
+			echo $eMSG;
+			$eDate= time();
+                        logger("rabbit",$eDate,$eMSG);
 			die("failed to send message to exchange: ". $e->getMessage()."\n");
 		}
 	}
@@ -264,6 +294,10 @@ class rabbitMQClient
 		}
 		catch(Exception $e)
 		{
+			$eMSG = "failed to send message to exchange: ".$e->getMessage();
+			echo $eMSG;
+			$eDate= time();
+                        logger("rabbit",$eMSG);
 			die("failed to send message to exchange: ". $e->getMessage()."\n");
 		}
 	}
