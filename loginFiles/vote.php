@@ -1,6 +1,5 @@
 <?php
 session_start();
-#require_once $_SERVER['DOCUMENT_ROOT'].'/rabbitFiles/head.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/rabbitFiles/loginRBMQ.php';
 $userName= $_SESSION['username'];
 $vote = $_POST['vote'];

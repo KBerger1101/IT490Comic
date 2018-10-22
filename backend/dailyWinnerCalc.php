@@ -83,7 +83,7 @@ function mailVoters($email,$winner)
 #ini_set('error_log', 'home/kevin/git/IT490Comic/php-errors.log');
 #ini_set('log_error_max_len', 1024);
 
-ecsdho "Starting vote count".PHP_EOL;
+echo "Starting vote count".PHP_EOL;
 dailyWinner();
 echo "FINISHED vote count".PHP_EOL;
 exit();
