@@ -75,7 +75,7 @@ function regUser($username, $pass, $email, $firstN, $lastN)
 	{
 		$query="INSERT INTO users values('$email','$pass', '$firstName', '$lastName', '$un')";
 		$mysqli->query($query) or die($mysqli->error);
-		echo "Account created successfully";
+		echo "Account created successfully".PHP_EOL;
 		echo "passwords match for $username".PHP_EOL;
 		$userData['username']=$un;
 		$userData['firstName']=$firstName;
