@@ -16,7 +16,7 @@ if ($response != false)#login successful!
 	#include hasvoted info here??
 
 
-	header("location: /loginFiles/dailyPage.php");
+	header("location: /loginFiles/choicePage.php");
 }
 else
 {

@@ -17,7 +17,7 @@ if ($response != false) #account creation successful, login!
 	$_SESSION['sessionID'] = $sessionData['sessionID'];
 	#if includes hasvoted set to false
 	
-	header("location: /loginFiles/successPage.php");
+	header("location: /loginFiles/choicePage.php");
 }
 else
 {
