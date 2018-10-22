@@ -7,15 +7,11 @@ function dailyWinner()
 	$pw = 'password';
 	$db = 'testdb';
 	$mysqli = new mysqli($host, $user, $pw, $db);
-	$query = "SELECT * FROM PointTable WHERE vote = 'DC'";
-	$DC = $mysqli->query($query);
-	$query = "SELECT * FROM PointTable WHERE vote = 'Marvel'";
-	$Marvel = $mysqli->query($query);
-	$DCVotes = mysqli_num_rows($DC);
-	echo $DCVotes;
-	$MarVotes = mysqli_num_rows($Marvel);
-	echo $MarVotes;
-	#compare votes
+	$query = "SELECT * FROM jackpot";
+	$jackpot = $mysqli->query($query);
+	$query = "SELECT * PointTable where totalPoints = (SELECT MAX(totalPoints) from PointTable)";
+	$winners = $mysqli->query($query);
+	#check if more than one winner, if so, divide tokens evenly
 	if ($DCVotes > $MarVotes)
 	{
 		$winner = "Team DC Comics";

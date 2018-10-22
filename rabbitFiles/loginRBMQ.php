@@ -2,6 +2,7 @@
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
+
 function login($username,$pass)
 {
 	$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
@@ -31,7 +32,9 @@ function errorThrow($msg)
 {
 	$eClient = new rabbitMQClient("testRabbitMQ.ini","errorServer");
 	$request3= array();
-	$eDate = date_create();
+	$eDate = time();
+
+	#$msg = " [$errorLev]".$errorMsg.$errorFile.$errorLine.$errorContext;
 	$request3['type']= "error";
 	$request3['date'] = $eDate;
 	$request3['msg'] =$msg;
@@ -66,3 +69,4 @@ function vote($userName, $vote)
 	return $response;
 
 }
+

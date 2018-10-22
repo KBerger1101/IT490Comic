@@ -1,8 +1,11 @@
 #!/usr/bin/php
 <?php
+#require_once $_SERVER['DOCUMENT_ROOT'].'/rabbitFiles/head.php';
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
+#require_once('loginRBMQ.php');
+#require_once('head.php');
 function loginUser($username, $pass)
 {
 	//set up database

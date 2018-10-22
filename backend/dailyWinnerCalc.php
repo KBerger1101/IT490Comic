@@ -1,5 +1,7 @@
 #!/usr/bin/php
-<?php 
+<?php
+#require_once $_SERVER['DOCUMENT_ROOT'].'/rabbitFiles/head.php';
+require_once  ('head.php');
 function dailyWinner()
 {
 	$host = 'localhost';
@@ -75,7 +77,13 @@ function mailVoters($email,$winner)
 	mail($email, "$subject", $message);
 
 }
-echo "Starting vote count".PHP_EOL;
+#error_reporting (E_ALL);
+#ini_set('display_errors',false);
+#ini_set('log_errors',true);
+#ini_set('error_log', 'home/kevin/git/IT490Comic/php-errors.log');
+#ini_set('log_error_max_len', 1024);
+
+ecsdho "Starting vote count".PHP_EOL;
 dailyWinner();
 echo "FINISHED vote count".PHP_EOL;
 exit();
