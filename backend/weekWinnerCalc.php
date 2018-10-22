@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?php 
-function dailyWinner()
+function weeklyWinner()
 {
 	$host = 'localhost';
 	$user = 'admin';
@@ -9,25 +9,57 @@ function dailyWinner()
 	$mysqli = new mysqli($host, $user, $pw, $db);
 	$query = "SELECT * FROM jackpot";
 	$jackpot = $mysqli->query($query);
-	$query = "SELECT * PointTable where totalPoints = (SELECT MAX(totalPoints) from PointTable)";
-	$winners = $mysqli->query($query);
+	$query = "SELECT * from PointTable where totalPoints = (SELECT MAX(totalPoints) from PointTable)";
+	$allWinners = $mysqli->query($query);
+	#$winners = $allWinners->fetch_assoc();
+	$numWinners = mysqli_num_rows($allWinners);
 	#check if more than one winner, if so, divide tokens evenly
-	if ($DCVotes > $MarVotes)
+	if ( $numWinners > 1)
 	{
-		$winner = "Team DC Comics";
-		$query = "INSERT INTO winTable VALUES( CURDATE(), 'DC')";
-		$mysqli->query($query);
-		#give winners points
-		while ($row = $DC->fetch_assoc())
+		echo "More than one winner, dividing pot evenly".PHP_EOL;
+		$jackpot = $jackpot->fetch_assoc();
+		echo $jackpot['totalTokens'].PHP_EOL;
+		$totalTokens= $jackpot['totalTokens'];
+		$leftover = $totalTokens % $numWinners;
+		$evenSplit = ($totalTokens-$leftover) / $numWinners;
+		echo "each user receiving $evenSplit tokens".PHP_EOL;
+		while ($row = $allWinners->fetch_assoc())
 		{
-			$username = $row['userName'];
-			$query = "UPDATE PointTable set totalPoints= totalPoints +100 where userName= '$username'";
+			$username= $row['userName'];
+			$query = "update TokenTable set availTokens= availTokens + $evenSplit where userName = '$username'";
 			$mysqli->query($query);
 		}
+		echo "Tokens distributed, restarting week stats".PHP_EOL;
+		$query = "update jackpot set totalTokens= $leftover";
+		$mysqli->query($query);
+		$query = "update PointTable set totalPoints = 0, vote= ''";
+		$mysqli->query($query);
+		echo "Points reset".PHP_EOL;
+	}
+	elseif ($numWinners ==1)
+	{
+		echo "Only one winner, keeping the pot!".PHP_EOL;
+		$jackpot = $jackpot->fetch_assoc();
+                echo $jackpot['totalTokens'].PHP_EOL;
+                $totalTokens= $jackpot['totalTokens'];
+                echo "each user receiving $totalTokens tokens".PHP_EOL;
+                while ($row = $allWinners->fetch_assoc())
+                {
+                        $username= $row['userName'];
+                        $query = "update TokenTable set availTokens= availTokens + $totalTokens where userName = '$username'";
+                        $mysqli->query($query);
+                }
+                echo "Tokens distributed, restarting week stats".PHP_EOL;
+                $query = "update jackpot set totalTokens= 0";
+                $mysqli->query($query);
+                $query = "update PointTable set totalPoints = 0, vote= ''";
+                $mysqli->query($query);
+                echo "Points reset".PHP_EOL;
+
 	}
 	#email all whom won
 	echo "Gathering emails of all whom won".PHP_EOL;
-	while ($row = $partis->fetch_assoc())
+	while ($row = $allWinners->fetch_assoc())
 	{
 		$username = $row['userName'];
 		$query = "select * from users where userName= '$username'";
@@ -48,7 +80,7 @@ function mailVoters($email,$winner)
 
 }
 echo "Checking leaderboards".PHP_EOL;
-dailyWinner();
+weeklyWinner();
 echo "Winners determined".PHP_EOL;
 exit();
 ?>
