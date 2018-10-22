@@ -4,8 +4,7 @@
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
-#require_once('loginRBMQ.php');
-#require_once('head.php');
+
 function loginUser($username, $pass)
 {
 	//set up database
@@ -14,6 +13,15 @@ function loginUser($username, $pass)
 	$pw = 'password';
 	$db = 'testdb';
 	$mysqli = new mysqli($host, $user, $pw, $db);
+	if ($mysqli->connect_error)
+	{
+		$eDate= time();
+		echo "DB CONNECT ERROR".PHP_EOL;
+		$eMSG= 'Connect Error in LOGIN, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
+		logger("db", $eDate, $eMSG);
+		die('Connect Error, '.$mysqli->connect_errno.': 
+' . $mysqli->connect_error);
+	}
 	$userData = array();
 	$un = $mysqli->escape_string($username);
 	$pass = $mysqli->escape_string($pass);
@@ -63,7 +71,16 @@ function regUser($username, $pass, $email, $firstN, $lastN)
         $user = 'admin';
         $pw = 'password';
         $db = 'testdb';
-        $mysqli = new mysqli($host, $user, $pw, $db);
+	$mysqli = new mysqli($host, $user, $pw, $db);
+	if ($mysqli->connect_error)
+        {
+                $eDate= time();
+                echo "DB CONNECT ERROR".PHP_EOL;
+                $eMSG= 'Connect Error in REGISTER, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
+                logger("db", $eDate, $eMSG);
+                die('Connect Error, '.$mysqli->connect_errno.':
+' . $mysqli->connect_error);
+        }
         $userData = array();
         $un = $mysqli->escape_string($username);
 	$pass = $mysqli->escape_string($pass);
@@ -111,6 +128,16 @@ function createSession($username)
         $pw = 'password';
         $db = 'testdb';
 	$mysqli = new mysqli($host, $user, $pw, $db);
+	if ($mysqli->connect_error)
+        {
+                $eDate= time();
+                echo "DB CONNECT ERROR".PHP_EOL;
+                $eMSG= 'Connect Error in CREATE SESSION, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
+                logger("db", $eDate, $eMSG);
+                die('Connect Error, '.$mysqli->connect_errno.': 
+' . $mysqli->connect_error);
+        }
+
 	$sDate = time();
 	$sessionKey= hash('sha256', $username.$sDate);
 	$query = "insert into sessionTable values('$username','$sessionKey',$sDate, 'true')";
@@ -126,6 +153,16 @@ function updateSession($username)
         $pw = 'password';
         $db = 'testdb';
 	$mysqli = new mysqli($host, $user, $pw, $db);
+	if ($mysqli->connect_error)
+        {
+                $eDate= time();
+                echo "DB CONNECT ERROR".PHP_EOL;
+                $eMSG= 'Connect Error in UPDATE SESSION, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
+                logger("db", $eDate, $eMSG);
+                die('Connect Error, '.$mysqli->connect_errno.':
+' . $mysqli->connect_error);
+        }
+
 	$sDate = time();
 	$sessionKey = hash('sha256',$username.$sDate);
 	$query = "update sessionTable set isValid='true', sessionKey = '$sessionKey', sessDate= '$sDate' where userName='$username'";
@@ -140,6 +177,16 @@ function dailyMatchup()
         $pw = 'password';
         $db = 'testdb';
 	$mysqli = new mysqli($host, $user, $pw, $db);
+	if ($mysqli->connect_error)
+        {
+                $eDate= time();
+                echo "DB CONNECT ERROR".PHP_EOL;
+                $eMSG= 'Connect Error in DAILY MATCHUP, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
+                logger("db", $eDate, $eMSG);
+                die('Connect Error, '.$mysqli->connect_errno.':
+' . $mysqli->connect_error);
+        }
+
 	#get general info from charTable
 	$idQuery= "SELECT * from MatchupTable  where  publisher = 'DC Comics'";
 	$DCHeroes = array();
@@ -231,6 +278,16 @@ function authUser($userName,$sessionID)
         $pw = 'password';
         $db = 'testdb';
 	$mysqli = new mysqli($host, $user, $pw, $db);
+	if ($mysqli->connect_error)
+        {
+                $eDate= time();
+                echo "DB CONNECT ERROR".PHP_EOL;
+                $eMSG= 'Connect Error in AUTH USER, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
+                logger("db", $eDate, $eMSG);
+                die('Connect Error, '.$mysqli->connect_errno.':
+' . $mysqli->connect_error);
+        }
+
 	if($userName==NULL)
 	{
 		return false;
@@ -262,7 +319,17 @@ function vote($userName, $vote)
         $user = 'admin';
         $pw = 'password';
         $db = 'testdb';
-        $mysqli = new mysqli($host, $user, $pw, $db);
+	$mysqli = new mysqli($host, $user, $pw, $db);
+	if ($mysqli->connect_error)
+        {
+                $eDate= time();
+                echo "DB CONNECT ERROR".PHP_EOL;
+                $eMSG= 'Connect Error in VOTE, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
+                logger("db", $eDate, $eMSG);
+                die('Connect Error, '.$mysqli->connect_errno.':
+' . $mysqli->connect_error);
+        }
+
 	#check if voted already
 	$statement = "select * from PointTable where userName = '$userName'";
         $response = $mysqli->query($statement);

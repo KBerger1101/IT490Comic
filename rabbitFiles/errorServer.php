@@ -5,9 +5,7 @@ require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
 function storeErrors($date, $msg)
-{
-
-	
+{	
 	file_put_contents('error.log', "[".$date["date"]."]".$msg.PHP_EOL, FILE_APPEND);		
 }	        
 function requestProcessor($request)

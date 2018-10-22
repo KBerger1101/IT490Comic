@@ -14,8 +14,19 @@ function storeHeroes($charID, $name, $imgURL, $publisher, $powers, $date)
         $pw = 'password';
         $db = 'testdb';
 	$mysqli = new mysqli($host, $user, $pw, $db);
+	if ($mysqli->connect_error)
+        {
+                $eDate= time();
+                echo "DB CONNECT ERROR".PHP_EOL;
+                $eMSG= 'Connect Error in Store Heroes, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
+                logger("db", $eDate, $eMSG);
+                die('Connect Error, '.$mysqli->connect_errno.': 
+' . $mysqli->connect_error);
+        }
+
 	$query = "SELECT * from CharacterTable where charID='$charID'";
 	$result = $mysqli->query($query);
+
 	if ( $result->num_rows == 0)#user not inserted yet, add to character Table and charPower table
 	{
 	 $query ="INSERT INTO CharacterTable Values('$charID','$name','$imgURL', '$publisher')";
@@ -33,6 +44,16 @@ function storePowers($charID, $powers)
         $pw = 'password';
         $db = 'testdb';
 	$mysqli = new mysqli($host, $user, $pw, $db);
+	if ($mysqli->connect_error)
+        {
+                $eDate= time();
+                echo "DB CONNECT ERROR".PHP_EOL;
+                $eMSG= 'Connect Error in Store Powers, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
+                logger("db", $eDate, $eMSG);
+                die('Connect Error, '.$mysqli->connect_errno.': 
+' . $mysqli->connect_error);
+        }
+
 	foreach($powers as $power)
 	{
 		$query="INSERT INTO charPowerTable Values('$charID', '$power')";
@@ -45,7 +66,17 @@ function storeMatchup($date, $charID, $pub)
         $user = 'admin';
         $pw = 'password';
         $db = 'testdb';
-        $mysqli = new mysqli($host, $user, $pw, $db);
+	$mysqli = new mysqli($host, $user, $pw, $db);
+	if ($mysqli->connect_error)
+        {
+                $eDate= time();
+                echo "DB CONNECT ERROR".PHP_EOL;
+                $eMSG= 'Connect Error in Store Matchup, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
+                logger("db", $eDate, $eMSG);
+                die('Connect Error, '.$mysqli->connect_errno.':
+' . $mysqli->connect_error);
+        }
+
 	$query="INSERT INTO MatchupTable values('$date', '$charID', '$pub')";
 	$mysqli->query($query) or die($mysqli->error);
 }
