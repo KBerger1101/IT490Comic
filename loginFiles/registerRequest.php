@@ -24,7 +24,7 @@ else
 	#handle error throwing
 	$errorMSG= "Account name already exists, please try again";
 	echo "<p>$errorMSG</p>";
-	errorThrow($errorMSG);
+	#errorThrow($errorMSG);
 	#header("location: index.php");
 }
 

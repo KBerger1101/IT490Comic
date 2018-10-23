@@ -23,7 +23,7 @@ else
 	#handle error throwing
 	$errorMSG = "Login Failed!";
 	echo "<p>$errorMSG</p>";
-	errorThrow($errorMSG);
+	#errorThrow($errorMSG);
 	#header("location: index.php");
 }
 

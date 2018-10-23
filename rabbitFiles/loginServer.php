@@ -8,7 +8,7 @@ require_once('rabbitMQLib.inc');
 function dblogger($eDate,$msg)
 {
 	echo "should send to rabbitMQ and locally".PHP_EOL;
-	$eData=time();
+	$eDate= date('Y-m-d H:i:s');
 	file_put_contents('error.log', "[".$eDate."]".$msg.PHP_EOL,FILE_APPEND);
 	echo "Should send to rabbit".PHP_EOL;
 	$eClient = new rabbitMQClient("testRabbitMQ.ini","errorServer");
@@ -130,8 +130,8 @@ function regUser($username, $pass, $email, $firstN, $lastN)
 	}
 	else #account already exists
 	{
+		echo "Account already exists you're beat".PHP_EOL;
 		return false;
-
 	}
 }
 function createSession($username)
