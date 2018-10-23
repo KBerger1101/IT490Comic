@@ -5,6 +5,21 @@ require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
 
+function dblogger($eDate,$msg)
+{
+        echo "should send to rabbitMQ and locally".PHP_EOL;
+        $eData=time();
+        file_put_contents('error.log', "[".$eDate."]".$msg.PHP_EOL,FILE_APPEND);
+        echo "Should send to rabbit".PHP_EOL;
+        $eClient = new rabbitMQClient("testRabbitMQ.ini","errorServer");
+        $request = array();
+        $request['type']= "error";
+        $request['date']= $eDate;
+        $request['msg']= $msg;
+        $eClient->send_request($request);
+
+}
+
 function storeHeroes($charID, $name, $imgURL, $publisher, $powers, $date)
 {
 
@@ -19,7 +34,7 @@ function storeHeroes($charID, $name, $imgURL, $publisher, $powers, $date)
                 $eDate= time();
                 echo "DB CONNECT ERROR".PHP_EOL;
                 $eMSG= 'Connect Error in Store Heroes, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
-                logger("db", $eDate, $eMSG);
+                dblogger($eDate, $eMSG);
                 die('Connect Error, '.$mysqli->connect_errno.': 
 ' . $mysqli->connect_error);
         }
@@ -49,7 +64,7 @@ function storePowers($charID, $powers)
                 $eDate= time();
                 echo "DB CONNECT ERROR".PHP_EOL;
                 $eMSG= 'Connect Error in Store Powers, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
-                logger("db", $eDate, $eMSG);
+                dblogger( $eDate, $eMSG);
                 die('Connect Error, '.$mysqli->connect_errno.': 
 ' . $mysqli->connect_error);
         }
@@ -72,7 +87,7 @@ function storeMatchup($date, $charID, $pub)
                 $eDate= time();
                 echo "DB CONNECT ERROR".PHP_EOL;
                 $eMSG= 'Connect Error in Store Matchup, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
-                logger("db", $eDate, $eMSG);
+                dblogger($eDate, $eMSG);
                 die('Connect Error, '.$mysqli->connect_errno.':
 ' . $mysqli->connect_error);
         }

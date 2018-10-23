@@ -5,6 +5,20 @@ require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
+function dblogger($eDate,$msg)
+{
+	echo "should send to rabbitMQ and locally".PHP_EOL;
+	$eData=time();
+	file_put_contents('error.log', "[".$eDate."]".$msg.PHP_EOL,FILE_APPEND);
+	echo "Should send to rabbit".PHP_EOL;
+	$eClient = new rabbitMQClient("testRabbitMQ.ini","errorServer");
+	$request = array();
+	$request['type']= "error";
+	$request['date']= $eDate;
+	$request['msg']= $msg;
+	$eClient->send_request($request);
+
+}
 function loginUser($username, $pass)
 {
 	//set up database
@@ -18,7 +32,7 @@ function loginUser($username, $pass)
 		$eDate= time();
 		echo "DB CONNECT ERROR".PHP_EOL;
 		$eMSG= 'Connect Error in LOGIN, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
-		logger("db", $eDate, $eMSG);
+		dblogger($eDate, $eMSG);
 		die('Connect Error, '.$mysqli->connect_errno.': 
 ' . $mysqli->connect_error);
 	}
@@ -77,7 +91,7 @@ function regUser($username, $pass, $email, $firstN, $lastN)
                 $eDate= time();
                 echo "DB CONNECT ERROR".PHP_EOL;
                 $eMSG= 'Connect Error in REGISTER, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
-                logger("db", $eDate, $eMSG);
+                dblogger($eDate, $eMSG);
                 die('Connect Error, '.$mysqli->connect_errno.':
 ' . $mysqli->connect_error);
         }
@@ -133,7 +147,7 @@ function createSession($username)
                 $eDate= time();
                 echo "DB CONNECT ERROR".PHP_EOL;
                 $eMSG= 'Connect Error in CREATE SESSION, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
-                logger("db", $eDate, $eMSG);
+                dblogger( $eDate, $eMSG);
                 die('Connect Error, '.$mysqli->connect_errno.': 
 ' . $mysqli->connect_error);
         }
@@ -158,7 +172,7 @@ function updateSession($username)
                 $eDate= time();
                 echo "DB CONNECT ERROR".PHP_EOL;
                 $eMSG= 'Connect Error in UPDATE SESSION, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
-                logger("db", $eDate, $eMSG);
+                dblogger( $eDate, $eMSG);
                 die('Connect Error, '.$mysqli->connect_errno.':
 ' . $mysqli->connect_error);
         }
@@ -182,7 +196,7 @@ function dailyMatchup()
                 $eDate= time();
                 echo "DB CONNECT ERROR".PHP_EOL;
                 $eMSG= 'Connect Error in DAILY MATCHUP, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
-                logger("db", $eDate, $eMSG);
+                dblogger( $eDate, $eMSG);
                 die('Connect Error, '.$mysqli->connect_errno.':
 ' . $mysqli->connect_error);
         }
@@ -283,7 +297,7 @@ function authUser($userName,$sessionID)
                 $eDate= time();
                 echo "DB CONNECT ERROR".PHP_EOL;
                 $eMSG= 'Connect Error in AUTH USER, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
-                logger("db", $eDate, $eMSG);
+                dblogger($eDate, $eMSG);
                 die('Connect Error, '.$mysqli->connect_errno.':
 ' . $mysqli->connect_error);
         }
@@ -325,7 +339,7 @@ function vote($userName, $vote)
                 $eDate= time();
                 echo "DB CONNECT ERROR".PHP_EOL;
                 $eMSG= 'Connect Error in VOTE, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
-                logger("db", $eDate, $eMSG);
+                dblogger( $eDate, $eMSG);
                 die('Connect Error, '.$mysqli->connect_errno.':
 ' . $mysqli->connect_error);
         }
@@ -387,7 +401,7 @@ function getLeaderboard()
                 $eDate= time();
                 echo "DB CONNECT ERROR".PHP_EOL;
                 $eMSG= 'Connect Error in leaderboard, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
-                logger("db", $eDate, $eMSG);
+                dblogger($eDate, $eMSG);
                 die('Connect Error, '.$mysqli->connect_errno.':
 ' . $mysqli->connect_error);
 	}
