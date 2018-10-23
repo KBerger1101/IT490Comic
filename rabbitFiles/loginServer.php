@@ -327,6 +327,37 @@ function authUser($userName,$sessionID)
 	return false;
 
 }
+function tokens($userName)
+{
+	$host = 'localhost';
+        $user = 'admin';
+        $pw = 'password';
+        $db = 'testdb';
+        $mysqli = new mysqli($host, $user, $pw, $db);
+        if ($mysqli->connect_error)
+        {
+                $eDate= time();
+                echo "DB CONNECT ERROR".PHP_EOL;
+                $eMSG= 'Connect Error in leaderboard, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
+                dblogger($eDate, $eMSG);
+                die('Connect Error, '.$mysqli->connect_errno.':
+' . $mysqli->connect_error);
+	}
+	$query = "UPDATE TokenTable set availTokens = availTokens + 1000 where userName = '$username'";
+	echo "ADDING TOKENS TO $username".PHP_EOL;
+	$mysqli->query($query);
+	$query = "Select * from	TokenTable where userName = '$username'";
+	echo "returning total tokens to user".PHP_EOL;
+	$result = $mysqli->query($query);
+	$userData= array();
+	while($row = $result->fetch_assoc())
+	{
+		$userData['username']= $row['userName'];
+		$userData['totalTokens']= $row['availTokens'];
+
+	}
+	return json_encode($userData);
+}
 function vote($userName, $vote)
 {
 	$host = 'localhost';
@@ -471,6 +502,8 @@ function requestProcessor($request)
 	    return authUser($request['username'],$request['sessionID']);
     case "vote":
 	    return vote($request['username'], $request['vote']);
+    case "tokens":
+	    return tokens($request['username']);
   }
   return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }

@@ -77,4 +77,13 @@ function vote($userName, $vote)
 	return $response;
 
 }
+function giveTokens($userName)
+{
+	$client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
+	$request= array();
+	$request['type'] = "tokens";
+	$request['username']= $userName;
+	$response = $client->send_request($request);
+	return $response;
+}
 
