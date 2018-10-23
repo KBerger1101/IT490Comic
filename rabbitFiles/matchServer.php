@@ -10,7 +10,7 @@ function storeHeroes($charID, $name, $imgURL, $publisher, $powers, $date)
 
 	#file_put_contents('char.log', $name.PHP_EOL, FILE_APPEND);
 	$host = 'localhost';
-        $user = 'root';
+        $user = 'admin';
         $pw = 'password';
         $db = 'testdb';
 	$mysqli = new mysqli($host, $user, $pw, $db);
@@ -40,7 +40,7 @@ function storeHeroes($charID, $name, $imgURL, $publisher, $powers, $date)
 function storePowers($charID, $powers)
 {
  	$host = 'localhost';
-        $user = 'root';
+        $user = 'admin';
         $pw = 'password';
         $db = 'testdb';
 	$mysqli = new mysqli($host, $user, $pw, $db);

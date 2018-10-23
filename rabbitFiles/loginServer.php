@@ -375,6 +375,48 @@ function vote($userName, $vote)
 	#update jackpot update totalTokens +=100
 	
 }
+function getLeaderboard()
+{
+	$host = 'localhost';
+        $user = 'admin';
+        $pw = 'password';
+        $db = 'testdb';
+        $mysqli = new mysqli($host, $user, $pw, $db);
+        if ($mysqli->connect_error)
+        {
+                $eDate= time();
+                echo "DB CONNECT ERROR".PHP_EOL;
+                $eMSG= 'Connect Error in leaderboard, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
+                logger("db", $eDate, $eMSG);
+                die('Connect Error, '.$mysqli->connect_errno.':
+' . $mysqli->connect_error);
+	}
+	$query= "Select * from PointTable order by totalPoints desc limit 10";
+	$result = $mysqli->query($query);
+	$leadbd = array();
+	while ($u = $result->fetch_assoc())
+	{
+		$user  = new user();
+		$user->userName=$u['userName'];
+		$user->points=$u['totalPoints'];
+		array_push($leadbd, $user);
+	}
+	$leaderB = new leaderbd();
+	$leaderB->leaderboard=$leadbd;
+	echo json_encode ($leaderB);
+	return json_encode($leaderB);
+
+
+}
+class user
+{
+	public $userName;
+	public $points;
+}
+class leaderbd
+{
+	public $leaderboard;
+}
 
 class hero
 {
@@ -407,8 +449,10 @@ function requestProcessor($request)
 	    return regUser($request['username'], $request['password'], $request['email'], $request['firstName'], $request['lastName']);
     case "dailyMatchup":
 	    return dailyMatchup();
-    case "weeklyMatchup":
-	    return weeklyMatchup();
+    case "previousMatchup":
+	    return previousMatchup();
+    case "leaderboard" :
+	    return getLeaderboard();
     case "validate":
 	    return authUser($request['username'],$request['sessionID']);
     case "vote":
