@@ -62,8 +62,8 @@ def sendCharData(fullCharDetailURL, name, publisher):
         resultJSON = json.loads(result.text)
         charID = resultJSON["results"]["id"]
         print(charID)
-        print(resultJSON["results"]["image"]["super_url"])
-        imgURL = resultJSON["results"]["image"]["super_url"]
+        print(resultJSON["results"]["image"]["medium_url"])
+        imgURL = resultJSON["results"]["image"]["medium_url"]
         powers = []
         for power in resultJSON["results"]["powers"]:
             print(power["name"])

@@ -188,7 +188,7 @@ function dailyMatchup()
         }
 
 	#get general info from charTable
-	$idQuery= "SELECT * from MatchupTable  where  publisher = 'DC Comics'";
+	$idQuery= "SELECT * from MatchupTable  where  publisher = 'DC Comics' order by matchDate DESC limit 5";
 	$DCHeroes = array();
 	$results= $mysqli->query($idQuery) or die($mysqli->error);
 	while ($char = $results->fetch_assoc())
@@ -225,7 +225,7 @@ function dailyMatchup()
 			array_push($DCHeroes,$hero); 
 		}
 	}
-	$idQuery= "SELECT * from MatchupTable where publisher = 'Marvel'";
+	$idQuery= "SELECT * from MatchupTable where publisher = 'Marvel' order by matchDate desc limit 5";
         $MarvelHeroes = array();
         $results= $mysqli->query($idQuery) or die($mysqli->error);
         while($char = $results->fetch_assoc())
