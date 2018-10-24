@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 #require_once $_SERVER['DOCUMENT_ROOT'].'/rabbitFiles/head.php';
-require_once  ('head.php');
+#require_once  ('head.php');
 function dailyWinner()
 {
 	$host = 'localhost';
@@ -14,9 +14,9 @@ function dailyWinner()
 	$query = "SELECT * FROM PointTable WHERE vote = 'Marvel'";
 	$Marvel = $mysqli->query($query);
 	$DCVotes = mysqli_num_rows($DC);
-	echo $DCVotes;
+	echo "DC VOTES " .$DCVotes.PHP_EOL;
 	$MarVotes = mysqli_num_rows($Marvel);
-	echo $MarVotes;
+	echo "Marvel VOTES ".$MarVotes.PHP_EOL;
 	#compare votes
 	if ($DCVotes > $MarVotes)
 	{
@@ -67,6 +67,10 @@ function dailyWinner()
 		echo "EMAILING $username at $email".PHP_EOL;
 		mailVoters($email,$winner);
 	}
+	echo "Resetting votes".PHP_EOL;
+	$query = "update PointTable set vote= ''";
+	$mysqli->query($query);
+	echo "Votes reset".PHP_EOL;
 	echo "DAILY WINNER FINISHED".PHP_EOL;
 }
 function mailVoters($email,$winner)

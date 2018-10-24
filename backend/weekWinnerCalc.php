@@ -28,6 +28,14 @@ function weeklyWinner()
 			$username= $row['userName'];
 			$query = "update TokenTable set availTokens= availTokens + $evenSplit where userName = '$username'";
 			$mysqli->query($query);
+                        echo "emailing winners".PHP_EOL;
+                        $query ="select * from users where userName= '$username'";
+                        $results = $mysqli->query($query);
+                        $result = $results->fetch_assoc();
+			$email =$result['email'];
+			echo "emailing $username at $email".PHP_EOL;
+                        mailVoters($email);
+
 		}
 		echo "Tokens distributed, restarting week stats".PHP_EOL;
 		$query = "update jackpot set totalTokens= $leftover";
@@ -47,18 +55,28 @@ function weeklyWinner()
                 {
                         $username= $row['userName'];
                         $query = "update TokenTable set availTokens= availTokens + $totalTokens where userName = '$username'";
-                        $mysqli->query($query);
+			$mysqli->query($query);
+                        echo "emailing winners".PHP_EOL;
+                        $query ="select * from users where userName= '$username'";
+                        $results = $mysqli->query($query);
+                        $result = $results->fetch_assoc();
+			$email =$result['email'];
+			echo "emailing $username at $email".PHP_EOL;
+                        mailVoters($email);
+
                 }
                 echo "Tokens distributed, restarting week stats".PHP_EOL;
                 $query = "update jackpot set totalTokens= 0";
                 $mysqli->query($query);
                 $query = "update PointTable set totalPoints = 0, vote= ''";
                 $mysqli->query($query);
-                echo "Points reset".PHP_EOL;
+		echo "Points reset".PHP_EOL;
+		echo "emailing winner".PHP_EOL;
 
 	}
 	#email all whom won
-	echo "Gathering emails of all whom won".PHP_EOL;
+	#echo "Gathering emails of all whom won".PHP_EOL;
+	/*
 	while ($row = $allWinners->fetch_assoc())
 	{
 		$username = $row['userName'];
@@ -67,11 +85,11 @@ function weeklyWinner()
 		$result = $results->fetch_assoc();
 		$email= $result['email'];
 		echo "EMAILING $username at $email".PHP_EOL;
-		mailVoters($email,$winner);
-	}
+		mailVoters($email);
+	}*/
 	echo "Weekly WINNER FINISHED".PHP_EOL;
 }
-function mailVoters($email,$winner)
+function mailVoters($email)
 {
 	$subject = "Weekly Winner";
 
