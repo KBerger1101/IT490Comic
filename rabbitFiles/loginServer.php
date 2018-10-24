@@ -327,7 +327,7 @@ function authUser($userName,$sessionID)
 	return false;
 
 }
-function tokens($userName)
+function tokens($username)
 {
 	$host = 'localhost';
         $user = 'admin';

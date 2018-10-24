@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once $_SERVER['DOCUMENT_ROOT'].'/checkSession.php';
+echo $_SESSION['username'];
 ?>
 <html>
 <h1>Options</h1>
@@ -28,13 +29,13 @@ if you see this you should see options
 <input type="hidden" name="lc" value="US">
 <input type="hidden" name="item_name" value="BettingTokens">
 <input type="hidden" name="item_number" value="bettingTokens">
-<input type="hidden" name="amount" value="1.00">
+<input type="hidden" name="amount" value="0.01">
 <input type="hidden" name="currency_code" value="USD">
 <input type="hidden" name="button_subtype" value="services">
 <input type="hidden" name="no_note" value="1">
 <input type="hidden" name="no_shipping" value="1">
 <input type="hidden" name="rm" value="1">
-<input type="hidden" name="return" value="http://localhost/loginFiles/choicePage.php">
+<input type="hidden" name="return" value="http://localhost/loginFiles/callback.php">
 <input type="hidden" name="cancel_return" value="http://localhost/loginFiles/choicePage.php">
 <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynow_LG.gif:NonHosted">
 <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
