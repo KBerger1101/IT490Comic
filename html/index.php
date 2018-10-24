@@ -1,3 +1,19 @@
+<?php
+session_start();
+if ($_SERVER['REQUEST_METHOD']=='POST')
+{
+        if (isset($_POST['login']))
+        {
+                require 'loginFiles/loginRequest.php';
+        }
+        if (isset($_POST['register']))
+        {
+                require 'loginFiles/registerRequest.php';
+        }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,14 +75,14 @@
         <div class="card card-signin my-5">
           <div class="card-body">
             <h5 class="card-title text-center">Sign In</h5>
-            <form class="form-signin">
+            <form class="form-signin" action = "index.php" method = "POST">
               <div class="form-label-group">
-                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-                <label for="inputEmail">Email address</label>
+                <input type="text" name="uname" id="inputUser" class="form-control" placeholder="Username" required autofocus>
+                <label for="inputUser">Username</label>
               </div>
 
               <div class="form-label-group">
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                <input type="password" name = "pword" id="inputPassword" class="form-control" placeholder="Password" required>
                 <label for="inputPassword">Password</label>
               </div>
 
@@ -74,7 +90,7 @@
                 <input type="checkbox" class="custom-control-input" id="customCheck1">
                 <label class="custom-control-label" for="customCheck1">Remember password</label>
               </div>
-              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+              <button name= 'login'  class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
               
             </form>
           </div>
