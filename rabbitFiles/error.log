@@ -176,3 +176,18 @@ Stack trace:
 #0 /home/kevin/git/IT490Comic/rabbitFiles/rabbitMQLib.inc(121): AMQPConnection->connect()
 #1 /home/kevin/git/IT490Comic/rabbitFiles/errorServer.php(21): rabbitMQServer->process_requests('requestProcesso...')
 #2 {main}
+[2018-10-24 13:43:22]Failed to start request processor: AMQPConnectionException: Socket error: could not connect to host. in /home/kevin/git/IT490Comic/rabbitFiles/rabbitMQLib.inc:121
+Stack trace:
+#0 /home/kevin/git/IT490Comic/rabbitFiles/rabbitMQLib.inc(121): AMQPConnection->connect()
+#1 /home/kevin/git/IT490Comic/rabbitFiles/loginServer.php(513): rabbitMQServer->process_requests('requestProcesso...')
+#2 {main}
+[2018-10-24 13:43:22]Failed to start request processor: AMQPConnectionException: Socket error: could not connect to host. in /home/kevin/git/IT490Comic/rabbitFiles/rabbitMQLib.inc:121
+Stack trace:
+#0 /home/kevin/git/IT490Comic/rabbitFiles/rabbitMQLib.inc(121): AMQPConnection->connect()
+#1 /home/kevin/git/IT490Comic/rabbitFiles/matchServer.php(108): rabbitMQServer->process_requests('requestProcesso...')
+#2 {main}
+[2018-10-24 13:43:22]Failed to start request processor: AMQPConnectionException: Socket error: could not connect to host. in /home/kevin/git/IT490Comic/rabbitFiles/rabbitMQLib.inc:121
+Stack trace:
+#0 /home/kevin/git/IT490Comic/rabbitFiles/rabbitMQLib.inc(121): AMQPConnection->connect()
+#1 /home/kevin/git/IT490Comic/rabbitFiles/errorServer.php(21): rabbitMQServer->process_requests('requestProcesso...')
+#2 {main}
