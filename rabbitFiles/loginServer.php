@@ -262,8 +262,7 @@ function dailyMatchup()
                                 $descQuery = "SELECT * from PowerTable where powerID = $powerID";
 				$dresult= $mysqli->query($descQuery) or die($mysqli->error);
 				$d= $dresult->fetch_assoc();
-				$p = $d['powerDesc'];
-                                array_push($powersArray, $p);
+                                array_push($powersArray, $d);
                         }
                 }
                 $hresult = $mysqli->query($heroQuery) or die($mysqli->error);
