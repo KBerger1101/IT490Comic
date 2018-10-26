@@ -11,7 +11,7 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/rabbitFiles/loginRBMQ.php';
 	}
 
 
-	echo "Sending request";
+	/*echo "Sending request";
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr');
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -23,5 +23,5 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/rabbitFiles/loginRBMQ.php';
 	curl_close($ch);
 	echo var_dump($response);
 	#header("location: /loginFiles/choicePage.php");
-	
+	 */
 ?>

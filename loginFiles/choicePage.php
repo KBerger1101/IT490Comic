@@ -1,7 +1,9 @@
 <?php
 session_start();
 require_once $_SERVER['DOCUMENT_ROOT'].'/checkSession.php';
-echo $_SESSION['username'];
+echo "Welcome ".$_SESSION['username'];
+echo "<br>";
+echo "Tokens available to bet: ". $_SESSION['totalTokens'].PHP_EOL;
 ?>
 <html>
 <h1>Options</h1>
