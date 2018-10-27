@@ -68,7 +68,7 @@ function loginUser($username, $pass)
 			$response = $mysqli->query($query);
                         while ($row2= $response->fetch_assoc())
                         {
-                                $userData['points'] = $row2['availTokens'];
+                                $userData['tokens'] = $row2['availTokens'];
                         }
 			echo json_encode ($userData);
 			return json_encode($userData);

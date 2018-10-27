@@ -6,7 +6,7 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/rabbitFiles/loginRBMQ.php';
 	if ($response!= false)
        	{
  		$sessionData= json_decode($response,true);
-		$_SESSION['totalTokens'] = $sessionData['totalTokens'];
+		$_SESSION['tokens'] = $sessionData['totalTokens'];
 		header("location: /loginFiles/choicePage.php");
 	}
 

@@ -13,6 +13,8 @@ if ($response != false)#login successful!
 	$_SESSION['firstName'] = $sessionData['firstname'];
 	$_SESSION['lastName'] = $sessionData['lastname'];
 	$_SESSION['sessionID']=$sessionData['sessionID'];
+	$_SESSION['tokens'] =$sessionData['tokens'];
+	$_SESSION['points']= $sessionData['points'];
 	#include hasvoted info here??
 
 
