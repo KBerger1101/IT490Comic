@@ -92,12 +92,48 @@ if ($_SERVER['REQUEST_METHOD']=='POST')
               </div>
               <button name= 'login'  class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
               
-            </form>
+	    </form>
+	<form action = "index.php" method= "POST" class="form-signin">
+              <div class="form-label-group">
+                <input name="username" type="text" id="inputUserame" class="form-control" placeholder="Username" required autofocus>
+                <label for="inputUserame">Username</label>
+              </div>
+
+              <div class="form-label-group">
+                <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+                <label for="inputEmail">Email address</label>
+	      </div>
+		<div class="form-label-group">
+                <input  name = "firstName" type="text" id="inputfName" class="form-control" placeholder="Username" required autofocus>
+                <label for="inputfName">First Name</label>
+	      </div>
+		<div class="form-label-group">
+                <input name= "lastName" type="text" id="inputlName" class="form-control" placeholder="Username" required autofocus>
+                <label for="inputlName">Last Name</label>
+              </div>
+              <hr>
+
+              <div class="form-label-group">
+                <input name= "password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                <label for="inputPassword">Password</label>
+              </div>
+
+              <div class="form-label-group">
+                <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Password" required>
+                <label for="inputConfirmPassword">Confirm password</label>
+              </div>
+
+              <button name="register" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register</button>
+	</form>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+
+
+
           <p class="mr-sm-2"> <bold><a href="register.html">Register Now</a> </bold></p>
           <ul class="list-unstyled">
             <li></li>
