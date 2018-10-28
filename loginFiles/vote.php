@@ -16,8 +16,8 @@ else
 {
 	$errorMSG="Voting failed! No tokens were removed, please try again in a moment";
 	echo "<p>$errorMSG</p>";
-	errorThrow($errorMSG);
-	sleep(5);
+	#errorThrow($errorMSG);
+	#sleep(5);
 	header("location: /loginFiles/dailyPage.php");
 }
 ?>
