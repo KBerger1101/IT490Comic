@@ -150,7 +150,7 @@ function createSession($username)
                 dblogger( $eDate, $eMSG);
                 die('Connect Error, '.$mysqli->connect_errno.': 
 ' . $mysqli->connect_error);
-
+	}
 	$sDate = time();
 	$sessionKey= hash('sha256', $username.$sDate);
 	$query = "insert into sessionTable values('$username','$sessionKey',$sDate, 'true')";
@@ -512,4 +512,3 @@ $server->process_requests('requestProcessor');
 echo "login END".PHP.EOL;
 exit();
 ?>
-
