@@ -2,6 +2,19 @@
 <?php
 #require_once $_SERVER['DOCUMENT_ROOT'].'/rabbitFiles/head.php';
 #require_once  ('head.php');
+function dblogger($eDate,$msg)
+{
+        echo "should send to rabbitMQ and locally".PHP_EOL;
+        $eDate= date('Y-m-d H:i:s');
+        file_put_contents('error.log', "[".$eDate."]".$msg.PHP_EOL,FILE_APPEND);
+        echo "Should send to rabbit".PHP_EOL;
+        $eClient = new rabbitMQClient("testRabbitMQ.ini","errorServer");
+        $request = array();
+        $request['type']= "error";
+        $request['date']= $eDate;
+        $request['msg']= $msg;
+        $eClient->send_request($request);
+}
 function dailyWinner()
 {
 	$host = 'localhost';
@@ -9,6 +22,16 @@ function dailyWinner()
 	$pw = 'password';
 	$db = 'testdb';
 	$mysqli = new mysqli($host, $user, $pw, $db);
+	if ($mysqli->connect_error)
+        {
+                $eDate= time();
+                echo "DB CONNECT ERROR".PHP_EOL;
+                $eMSG= 'Connect Error in dailyWinner, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
+                dblogger($eDate, $eMSG);
+                die('Connect Error, '.$mysqli->connect_errno.':
+' . $mysqli->connect_error);
+        }
+
 	$query = "SELECT * FROM PointTable WHERE vote = 'DC'";
 	$DC = $mysqli->query($query);
 	$query = "SELECT * FROM PointTable WHERE vote = 'Marvel'";

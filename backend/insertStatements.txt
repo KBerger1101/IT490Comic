@@ -8,3 +8,4 @@ Create Table winTable(matchDate date, publisher varchar(30)) Engine= InnoDB;
 Create Table sessionTable(userName varchar(30), sessionKey varchar(255), sessDate bigint, isValid varchar(10), PRIMARY KEY (userName)) Engine = InnoDB;
 Create Table jackpot(totalTokens int) Engine = InnoDB;
 Create Table TokenTable(userName varchar(255), availTokens int, PRIMARY KEY (userName)) Engine= InnoDB;
+Insert into jackpot values(0);

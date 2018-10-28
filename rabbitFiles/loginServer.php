@@ -150,7 +150,6 @@ function createSession($username)
                 dblogger( $eDate, $eMSG);
                 die('Connect Error, '.$mysqli->connect_errno.': 
 ' . $mysqli->connect_error);
-        }
 
 	$sDate = time();
 	$sessionKey= hash('sha256', $username.$sDate);

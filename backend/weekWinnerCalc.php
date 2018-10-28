@@ -7,6 +7,16 @@ function weeklyWinner()
 	$pw = 'password';
 	$db = 'testdb';
 	$mysqli = new mysqli($host, $user, $pw, $db);
+	if ($mysqli->connect_error)
+        {
+                $eDate= time();
+                echo "DB CONNECT ERROR".PHP_EOL;
+                $eMSG= 'Connect Error in weeklyWinner, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
+                dblogger($eDate, $eMSG);
+                die('Connect Error, '.$mysqli->connect_errno.':
+' . $mysqli->connect_error);
+        }
+
 	$query = "SELECT * FROM jackpot";
 	$jackpot = $mysqli->query($query);
 	$query = "SELECT * from PointTable where totalPoints = (SELECT MAX(totalPoints) from PointTable)";
