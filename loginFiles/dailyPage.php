@@ -36,6 +36,7 @@ foreach ($_SESSION['heroData']['DC'][$i]["powers"] as $power)
 	#echo '<br>';
 }
 }
+echo "<h1> Team DC</h1>";
 echo $dcPrint;
 ?>
 </div>
@@ -57,6 +58,7 @@ foreach ($_SESSION['heroData']['Marvel'][$i]["powers"] as $power)
 #echo $_SESSION['heroData']['Marvel'][0]['charName'];
 #echo "<img src =".$_SESSION['heroData']['Marvel'][0]['imgURL'].">";
 #echo '<br>';
+echo "<h1>Team Marvel</h1>";
 echo $marPrint;
 ?>
 </div>
@@ -72,6 +74,7 @@ if you see this you should see matchup, vote below
 
 </form>
 </body>
+<p> Thank you to ComicVine.com for supplying the information for the fight!</p>
 </html>
 
 
