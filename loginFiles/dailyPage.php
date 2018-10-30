@@ -11,18 +11,42 @@ if ($_SESSION['heroData'] == null)
 <html>
 <head>
 <style>
+.img {
+width:300px;
+height: auto;
+}
 </style>
 </head>
 <h1>matchup</h1>
 <body>
-
-<div>
+<div style="width:800px;">
 <?php
+if($_SESSION['hasVoted'])
+{
+        echo "<p>You have voted today!</p>";
+}
+?>
+<div id="textResponse">
+if you see this you should see matchup, vote below
+<a href="logout.php"><button>LOGOUT</button></a>
+</div>
+
+<form action='vote.php' method="POST">
+<input type="radio" name="vote" value="DC">Vote DC<br>
+<input type="radio" name="vote" value="Marvel">Vote Marvel<br>
+<button>Submit Vote</button>
+
+</form>
+
+
+<div style="width:300px; float:left;" >
+<?php
+
 
 $dcPrint= "";
 for ($i =0 ; $i <5; $i ++){
-$dcPrint.= $_SESSION['heroData']['DC'][$i]['charName'];
-$dcPrint.= "<br><img src= ".$_SESSION['heroData']['DC'][$i]['imgURL'].">";
+	$dcPrint.= "<h3>".$_SESSION['heroData']['DC'][$i]['charName']."</h3>";
+$dcPrint.= "<br><img class='img' src= ".$_SESSION['heroData']['DC'][$i]['imgURL'].">";
 $dcPrint.="<br>";
 
 #echo $_SESSION['heroData']['DC'][0]['charName'];
@@ -40,12 +64,12 @@ echo "<h1> Team DC</h1>";
 echo $dcPrint;
 ?>
 </div>
-<div>
+<div style="width:300px; float:right">
 <?php
 $marPrint= "";
 for ($i =0 ; $i <5; $i ++){
-$marPrint.= $_SESSION['heroData']['Marvel'][$i]['charName'];
-$marPrint.= "<br><img src= ".$_SESSION['heroData']['Marvel'][$i]['imgURL'].">";
+$marPrint.="<h3>". $_SESSION['heroData']['Marvel'][$i]['charName']."</h3>";
+$marPrint.= "<br><img class='img' src= ".$_SESSION['heroData']['Marvel'][$i]['imgURL'].">";
 $marPrint.= "<br>";
 foreach ($_SESSION['heroData']['Marvel'][$i]["powers"] as $power)
 {
@@ -62,7 +86,8 @@ echo "<h1>Team Marvel</h1>";
 echo $marPrint;
 ?>
 </div>
-<div id="textResponse">
+</div>
+<!--<div id="textResponse">
 if you see this you should see matchup, vote below
 <a href="logout.php"><button>LOGOUT</button></a>
 </div>
@@ -71,10 +96,10 @@ if you see this you should see matchup, vote below
 <input type="radio" name="vote" value="DC">Vote DC<br>
 <input type="radio" name="vote" value="Marvel">Vote Marvel<br>
 <button>Submit Vote</button>
-
-</form>
+</form>-->
 </body>
-<p> Thank you to ComicVine.com for supplying the information for the fight!</p>
+<div style="float:left;">
+<p> Thank you to ComicVine.com for supplying the information for the fight!</p></div>
 </html>
 
 

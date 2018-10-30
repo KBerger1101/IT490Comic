@@ -3,6 +3,8 @@ session_start();
 require_once $_SERVER['DOCUMENT_ROOT'].'/checkSession.php';
 echo "Welcome ".$_SESSION['username'];
 echo "<br>";
+echo "Current score: ". $_SESSION['points'].PHP_EOL;
+echo "<br>";
 echo "Tokens available to bet: ". $_SESSION['tokens'].PHP_EOL;
 ?>
 <html>
