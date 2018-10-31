@@ -28,6 +28,7 @@ if($_SESSION['hasVoted'])
 ?>
 <div id="textResponse">
 if you see this you should see matchup, vote below
+<a href="choicePage.php"><button>Home Page</button></a>
 <a href="logout.php"><button>LOGOUT</button></a>
 </div>
 
