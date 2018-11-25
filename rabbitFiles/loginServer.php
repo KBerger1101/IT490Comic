@@ -316,7 +316,15 @@ function authUser($userName,$sessionID)
                 {
                         echo "sessionID match for $userName".PHP_EOL;
                         $userData['username']=$userName;
-                        $userData['sessionID']=$sessionID;
+			$userData['sessionID']=$sessionID;
+			$query = "Select * from TokenTable where userName = '$username'";
+		        echo "returning total tokens to user".PHP_EOL;
+        		$result = $mysqli->query($query);
+        		while($row = $result->fetch_assoc())
+       			{
+                		$userData['totalTokens']= $row['availTokens'];
+
+        		}
                         echo json_encode ($userData);
                         return json_encode($userData);
 		}
