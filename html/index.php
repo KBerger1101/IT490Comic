@@ -95,6 +95,8 @@ if ($_SERVER['REQUEST_METHOD']=='POST')
 	    </form>
 	<form action = "index.php" method= "POST" class="form-signin">
               <div class="form-label-group">
+              <p></p>
+              <p></p>
                 <input name="username" type="text" id="inputUserame" class="form-control" placeholder="Username" required autofocus>
                 <label for="inputUserame">Username</label>
               </div>
