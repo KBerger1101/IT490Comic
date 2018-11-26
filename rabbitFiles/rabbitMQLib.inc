@@ -247,8 +247,10 @@ class rabbitMQClient
 			$eMSG = "failed to send message to exchange: ".$e->getMessage();
 			echo $eMSG;
 			$eDate= date('Y-m-d H:i:s');
-                        logger("rabbit",$eDate,$eMSG);
-			die("failed to send message to exchange: ". $e->getMessage()."\n");
+			logger("rabbit",$eDate,$eMSG);
+			$response = 69;
+			return $response;
+			#die("failed to send message to exchange: ". $e->getMessage()."\n");
 		}
 	}
 

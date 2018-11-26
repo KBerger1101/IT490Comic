@@ -8,6 +8,7 @@ from datetime import timedelta
 import time
 #rabbit shit
 RABBIT_HOST = '127.0.0.1'
+RABBIT_HOST2= '127.0.0.1'
 RABBIT_PORT = 5672
 RABBIT_Q = '*'
 RABBIT_USER = 'test'
@@ -70,9 +71,10 @@ def sendCharData(fullCharDetailURL, name, publisher):
             powerID = power["id"]
             powers.append(powerID)
         print(powers)
-        #error catch? 
-        #errorMSG = "Just a test"
+        #send two copies of characters to backend + backup
         sendRequest(RABBIT_HOST, RABBIT_Q,RABBIT_USER, RABBIT_PASS, RABBIT_VH, RABBIT_EX, RABBIT_PORT, date, charID, name, imgURL, powers,publisher)
+        sendRequest(RABBIT_HOST2, RABBIT_Q,RABBIT_USER, RABBIT_PASS, RABBIT_VH, RABBIT_EX, RABBIT_PORT, date, charID, name, imgURL, powers,publisher)
+
         #just for testing error collection
         #sendError(RABBIT_HOST, RABBIT_Q,RABBIT_USER, RABBIT_PASS, RABBIT_VH, eRABBIT_EX, RABBIT_PORT, date, errorMSG)
     except requests.exceptions.RequestException:
