@@ -112,6 +112,24 @@ def sendError(rabbitServer, rabbitQ, rabbitUser, rabbitPass, rabbitVHost, rabbit
     channel = connection.channel()
     channel.basic_publish(exchange=rabbitEx, routing_key=rabbitQ, body  = rabbitMSG)
 
+def sendMixRequest(rabbitServer, rabbitQ, rabbitUser, rabbitPass, rabbitVHost, rabbitEx, rabbitPort):
+    rabbitServer2 = '127.0.0.1'
+    msgDict= {'type': 'mix'
+                }
+    rabbitMSG = json.dumps( msgDict, sort_keys=True, indent=4, default=str)
+    creds = pika.PlainCredentials(rabbitUser, rabbitPass)
+    try:
+        connection = pika.BlockingConnection(pika.ConnectionParameters(rabbitServer, rabbitPort, rabbitVHost, creds))
+        channel = connection.channel()
+        channel.basic_publish(exchange=rabbitEx, routing_key=rabbitQ, body=rabbitMSG)
+    except pika.exceptions.ConnectionClosed as err:
+        connection = pika.BlockingConnection(pika.ConnectionParameters(rabbitServer2, rabbitPort, rabbitVHost, creds))
+        channel = connection.channel()
+        channel.basic_publish(exchange=rabbitEx, routing_key=rabbitQ, body=rabbitMSG)
+    print("Sent mix message")
+
+
 
 getCharData()
+sendMixRequest(RABBIT_HOST, RABBIT_Q,RABBIT_USER, RABBIT_PASS, RABBIT_VH, RABBIT_EX, RABBIT_PORT);
 print ("Who Would Win?")
