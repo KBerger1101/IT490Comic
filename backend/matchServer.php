@@ -52,6 +52,37 @@ function storeHeroes($charID, $name, $imgURL, $publisher, $powers, $date)
 	storeMatchup($date,$charID, $publisher);
 	
 }
+function pickMix()
+{
+	$host = 'localhost';
+        $user = 'admin';
+        $pw = 'password';
+        $db = 'testdb';
+        $mysqli = new mysqli($host, $user, $pw, $db);
+        if ($mysqli->connect_error)
+        {
+                $eDate= time();
+                echo "DB CONNECT ERROR".PHP_EOL;
+                $eMSG= 'Connect Error in Store Heroes, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
+                dblogger($eDate, $eMSG);
+                die('Connect Error, '.$mysqli->connect_errno.':
+' . $mysqli->connect_error);
+        }
+
+	$date = time();
+	#pick 5 from Character Table
+	$mixQuery = "Select * from CharacterTable order by RAND() limit 5";
+	$results = $mysqli->query($mixQuery) or die ($mysqli->error);
+	while ($char = $results->fetch_assoc())
+	{
+		$charID = $char['charID'];
+		$publisher= $char['publisher'];
+		#add to mix matchup table
+		storeMix($date, $charID, $publisher);
+	}
+
+}
+
 function storePowers($charID, $powers)
 {
  	$host = 'localhost';
@@ -88,19 +119,44 @@ function storeMatchup($date, $charID, $pub)
                 echo "DB CONNECT ERROR".PHP_EOL;
                 $eMSG= 'Connect Error in Store Matchup, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
                 dblogger($eDate, $eMSG);
-                die('Connect Error, '.$mysqli->connect_errno.':
-' . $mysqli->connect_error);
+                die('Connect Error, '.$mysqli->connect_errno.': ' . $mysqli->connect_error);
         }
 
 	$query="INSERT INTO MatchupTable values('$date', '$charID', '$pub')";
+	$mysqli->query($query) or die($mysqli->error);
+}
+function storeMix($date,$charID, $pub)
+{
+	$host= 'localhost';
+	$user = 'admin';
+	$pw = 'password';
+	$db = 'testdb';
+	$mysqli = new mysqli($host, $user, $pw, $db);
+	if ($mysqli->connect_error)
+	{
+		$eDate= time();
+                echo "DB CONNECT ERROR".PHP_EOL;
+                $eMSG= 'Connect Error in Store Matchup, '.$mysqli->connect_errno.': ' . $mysqli->connect_error;
+                dblogger($eDate, $eMSG);
+                die('Connect Error, '.$mysqli->connect_errno.': ' . $mysqli->connect_error);
+	}
+	$query="INSERT INTO MixMatchupTable values('$date', '$charID', '$pub')";
 	$mysqli->query($query) or die($mysqli->error);
 }
 function requestProcessor($request)
 {
   echo "received request".PHP_EOL;
   var_dump($request);
-  storeHeroes($request["charID"],$request["name"],$request["image"],$request["publisher"], $request["powers"], $request["date"]);
+  if(!isset($request['type']))
+  {
+  	storeHeroes($request["charID"],$request["name"],$request["image"],$request["publisher"], $request["powers"], $request["date"]);
+  }
+  if(isset($request['type']))
+  {
+	pickMix();
+  }
   return array("returnCode" => '0', 'message'=>"Server received request and processed");
+
 }
 
 $server = new rabbitMQServer("testRabbitMQ.ini","heroServer");
