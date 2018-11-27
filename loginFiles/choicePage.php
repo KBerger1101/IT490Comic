@@ -22,9 +22,6 @@ if you see this you should see options
 <form action="/loginFiles/leaderboards.php">
 <button type="submit" >View Leaderboards</button>
 </form>
-<form action="/loginFiles/prevMatchups.php">
-<button type="submit" >View Previous Matchups</button>
-</form>
 
 
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
