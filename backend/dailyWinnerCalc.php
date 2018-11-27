@@ -38,12 +38,16 @@ function dailyWinner()
 	$DC = $mysqli->query($query);
 	$query = "SELECT * FROM PointTable WHERE vote = 'Marvel'";
 	$Marvel = $mysqli->query($query);
+	$query = "SELECT * FROM PointTable WHERE vote = 'Mix'";
+	$Mix = $mysqli->query($query);
+	$MixVotes = mysqli_num_rows($Mix);
+	echo "Mix Votes ".$MixVotes.PHP_EOL;
 	$DCVotes = mysqli_num_rows($DC);
 	echo "DC VOTES " .$DCVotes.PHP_EOL;
 	$MarVotes = mysqli_num_rows($Marvel);
 	echo "Marvel VOTES ".$MarVotes.PHP_EOL;
 	#compare votes
-	if ($DCVotes > $MarVotes)
+	if ($DCVotes > $MarVotes && $MarVotes > $MixVotes)
 	{
 		$winner = "Team DC Comics";
 		$query = "INSERT INTO winTable VALUES( CURDATE(), 'DC')";
@@ -56,7 +60,7 @@ function dailyWinner()
 			$mysqli->query($query);
 		}
 	}
-	elseif ($MarVotes > $DCVotes)
+	elseif ($MarVotes > $DCVotes && $DCVotes > $MixVotes)
 	{
 		$winner = "Team Marvel";
 		$query = "INSERT INTO winTable VALUES( CURDATE(), 'Marvel')";
@@ -69,7 +73,81 @@ function dailyWinner()
 			$mysqli->query($query);
 		}
 	}
-	elseif ($MarVotes == $DCVotes)
+	elseif ($MixVotes > $MarVotes && $MarVotes > $DCVotes)
+	{
+		$winner = "Team Mix";
+		$query = "INSERT INTO winTable VALUES( CURDATE(), 'Mix')";
+		$mysqli->query($query);
+		#give winners points
+		while ($row = $Mix->fetch_assoc())
+		{
+			$username = $row['userName'];
+			$query = "UPDATE  PointTable set totalPoints = totalPoints + 100 where userName = '$username'";
+			$mysqli->query($query);
+		}
+	}
+	elseif ($DCVotes == $MarVotes && $MarVotes > $MixVotes)
+	{
+		#DC + Marvel Win
+		$winner = "Tied between DC and Marvel";
+		$query = "INSERT INTO winTable VALUES( CURDATE(), 'DC Marvel')";
+		$mysqli->query($query);
+		#give winners points
+                while ($row = $DC->fetch_assoc())
+                {
+                        $username = $row['userName'];
+                        $query = "UPDATE  PointTable set totalPoints = totalPoints + 100 where userName = '$username'";
+                        $mysqli->query($query);
+		}
+		while ($row = $Marvel->fetch_assoc())
+                {
+                        $username = $row['userName'];
+                        $query = "UPDATE  PointTable set totalPoints = totalPoints + 100 where userName = '$username'";
+                        $mysqli->query($query);
+                }
+	}
+	elseif ($DCVotes == $MixVotes && $MixVotes > $MarVotes)
+	{
+		#DC + Mix Win
+		$winner = "Tied between DC and Mixed";
+		$query = "INSERT INTO winTable VALUES( CURDATE(), 'DC Mix')";
+		$mysqli->query($query);
+		#give winners points
+                while ($row = $DC->fetch_assoc())
+                {
+                        $username = $row['userName'];
+                        $query = "UPDATE  PointTable set totalPoints = totalPoints + 100 where userName = '$username'";
+                        $mysqli->query($query);
+                }
+                while ($row = $Mix->fetch_assoc())
+                {
+                        $username = $row['userName'];
+                        $query = "UPDATE  PointTable set totalPoints = totalPoints + 100 where userName = '$username'";
+                        $mysqli->query($query);
+                }
+	}
+	elseif ($MarVotes == $MixVotes && $MixVotes > $DCVotes)
+	{
+		#Marvel + Mix Win
+		$winner = "Tied between Marvel and Mix";
+		$query = "INSERT INTO winTable VALUES( CURDATE(), 'Marvel Mix')";
+		$mysqli->query($query);
+		#give winners points
+                while ($row = $Mix->fetch_assoc())
+                {
+                        $username = $row['userName'];
+                        $query = "UPDATE  PointTable set totalPoints = totalPoints + 100 where userName = '$username'";
+                        $mysqli->query($query);
+                }
+                while ($row = $Marvel->fetch_assoc())
+                {
+                        $username = $row['userName'];
+                        $query = "UPDATE  PointTable set totalPoints = totalPoints + 100 where userName = '$username'";
+                        $mysqli->query($query);
+                }
+
+	}
+	elseif ($MarVotes == $DCVotes & $DCVotes == $MixVotes)
 	{
 		$winner = "Tied!";
 		$query = "INSERT INTO winTable VALUES( CURDATE(), 'Tied')";
@@ -106,11 +184,6 @@ function mailVoters($email,$winner)
 	mail($email, "$subject", $message);
 
 }
-#error_reporting (E_ALL);
-#ini_set('display_errors',false);
-#ini_set('log_errors',true);
-#ini_set('error_log', 'home/kevin/git/IT490Comic/php-errors.log');
-#ini_set('log_error_max_len', 1024);
 
 echo "Starting vote count".PHP_EOL;
 dailyWinner();
