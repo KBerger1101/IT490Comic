@@ -1,7 +1,9 @@
 #!/usr/bin/php
 <?php
-#require_once $_SERVER['DOCUMENT_ROOT'].'/rabbitFiles/head.php';
-#require_once  ('head.php');
+require_once('path.inc');
+require_once('get_host_info.inc');
+require_once('rabbitMQLib.inc');
+
 function dblogger($eDate,$msg)
 {
         echo "should send to rabbitMQ and locally".PHP_EOL;
