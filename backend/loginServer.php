@@ -201,6 +201,44 @@ function dailyMatchup()
         }
 
 	#get general info from charTable
+	$idQuery= "SELECT * from MixMatchupTable order by matchDate DESC limit 5";
+	$mixHeroes = array();
+	$results = $mysqli->query($idQuery) or die($mysqli->error);
+	while ($char = $results->fetch_assoc())
+	{
+		$charID= $char['charID'];
+		$heroQuery = "SELECT * from CharacterTable where charID = $charID";
+		$powerQuery= "SELECT * from charPowerTable where charID = $charID";
+		$powersArray = array();
+		$presult = $mysqli->query($powerQuery) or die($mysqli->error);
+		if ($presult->num_rows == 0)
+		{
+			#no powers ):
+		}
+		else
+		{
+			while($power = $presult->fetch_assoc())
+                        {
+                                $powerID = $power['powerID'];
+                                $descQuery = "SELECT * from PowerTable where powerID = $powerID";
+                                $dresult= $mysqli->query($descQuery) or die($mysqli->error);
+                                $wrapped= $dresult->fetch_assoc();
+                                array_push($powersArray, $wrapped);
+                        }
+		}
+		$hresult = $mysqli->query($heroQuery) or die($mysqli->error);
+                while($h  = $hresult->fetch_assoc())
+                {
+
+                        $hero = new hero();
+                        $hero->charName=$h['charName'];
+                        $hero->imgURL=$h['imgURL'];
+                        $hero->powers= $powersArray;
+                        #$jHero = json_encode(var_dump($hero));
+                        array_push($mixHeroes,$hero);
+                }
+
+	}
 	$idQuery= "SELECT * from MatchupTable  where  publisher = 'DC Comics' order by matchDate DESC limit 5";
 	$DCHeroes = array();
 	$results= $mysqli->query($idQuery) or die($mysqli->error);
@@ -276,6 +314,7 @@ function dailyMatchup()
 	$matchUp = new matchup();
 	$matchUp->DC= $DCHeroes;
 	$matchUp->Marvel= $MarvelHeroes;
+	$matchUp->Mix= $mixHeroes;
 	echo json_encode ($matchUp);
 	$sMatchup= json_encode($matchUp);
 	#echo json_decode ($sMatchup);
@@ -317,7 +356,7 @@ function authUser($userName,$sessionID)
                         echo "sessionID match for $userName".PHP_EOL;
                         $userData['username']=$userName;
 			$userData['sessionID']=$sessionID;
-			$query = "Select * from TokenTable where userName = '$username'";
+			$query = "Select * from TokenTable where userName = '$userName'";
 		        echo "returning total tokens to user".PHP_EOL;
         		$result = $mysqli->query($query);
         		while($row = $result->fetch_assoc())
@@ -480,6 +519,7 @@ class matchup
 {
 	public $DC;
 	public $Marvel;
+	public $Mix;
 	function _construct(){}
 }
 

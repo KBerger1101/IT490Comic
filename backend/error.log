@@ -28,3 +28,10 @@ Stack trace:
 #0 /home/kevin/git/IT490Comic/backend/rabbitMQLib.inc(121): AMQPConnection->connect()
 #1 /home/kevin/git/IT490Comic/backend/matchServer.php(108): rabbitMQServer->process_requests('requestProcesso...')
 #2 {main}
+[2018-11-27 13:27:56]error: rabbitMQServer: process_message: exception caught: AMQPQueueException: Server channel error: 404, message: NOT_FOUND - no queue 'testQueue_response' in vhost 'testHost' in /home/kevin/git/IT490Comic/backend/rabbitMQLib.inc:85
+Stack trace:
+#0 /home/kevin/git/IT490Comic/backend/rabbitMQLib.inc(85): AMQPQueue->bind('testExchange', '*.response')
+#1 [internal function]: rabbitMQServer->process_message(Object(AMQPEnvelope), Object(AMQPQueue))
+#2 /home/kevin/git/IT490Comic/backend/rabbitMQLib.inc(133): AMQPQueue->consume(Array)
+#3 /home/kevin/git/IT490Comic/backend/loginServer.php(559): rabbitMQServer->process_requests('requestProcesso...')
+#4 {main}

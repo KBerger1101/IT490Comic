@@ -20,12 +20,7 @@ height: auto;
 <h1>matchup</h1>
 <body>
 <div style="width:800px;">
-<?php
-if($_SESSION['hasVoted'])
-{
-        echo "<p>You have voted today!</p>";
-}
-?>
+
 <div id="textResponse">
 if you see this you should see matchup, vote below
 <a href="choicePage.php"><button>Home Page</button></a>
@@ -42,7 +37,20 @@ if you see this you should see matchup, vote below
 
 <div style="width:300px; float:left;" >
 <?php
+$mixPrint= "";
+for ($i = 0; $i <5; $i ++){
+	$mixPrint.="<h3>".$_SESSION['heroData']['Mix'][$i]['charName']."</h3>";
+	$mixPrint.= "<br><img class='img' src= ".$_SESSION['heroData']['Mix'][$i]['imgURL'].">";
+	$mixPrint.="<br>";
+	foreach ($_SESSION['heroData']['Mix'][$i]["powers"] as $power)
+	{
+		$mixPrint.=$power['powerDesc'];
+		$mixPrint.="<br>";
+	}
+}
 
+echo "<h1>Team Mix</h1>";
+echo $mixPrint;
 
 $dcPrint= "";
 for ($i =0 ; $i <5; $i ++){
@@ -50,9 +58,6 @@ for ($i =0 ; $i <5; $i ++){
 $dcPrint.= "<br><img class='img' src= ".$_SESSION['heroData']['DC'][$i]['imgURL'].">";
 $dcPrint.="<br>";
 
-#echo $_SESSION['heroData']['DC'][0]['charName'];
-#echo "<img src =".$_SESSION['heroData']['DC'][0]['imgURL'].">";
-#echo '<br>';
 foreach ($_SESSION['heroData']['DC'][$i]["powers"] as $power)
 {
 	$dcPrint.=$power['powerDesc'];
