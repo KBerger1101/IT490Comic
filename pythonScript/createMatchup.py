@@ -7,7 +7,7 @@ import datetime
 from datetime import timedelta
 import time
 #rabbit shit
-RABBIT_HOST = '127.0.0.1'
+RABBIT_HOST = '10.128.82.112'
 RABBIT_HOST2= '127.0.0.1'
 RABBIT_PORT = 5672
 RABBIT_Q = '*'
@@ -73,7 +73,7 @@ def sendCharData(fullCharDetailURL, name, publisher):
         print(powers)
         #send two copies of characters to backend + backup
         sendRequest(RABBIT_HOST, RABBIT_Q,RABBIT_USER, RABBIT_PASS, RABBIT_VH, RABBIT_EX, RABBIT_PORT, date, charID, name, imgURL, powers,publisher)
-        sendRequest(RABBIT_HOST2, RABBIT_Q,RABBIT_USER, RABBIT_PASS, RABBIT_VH, RABBIT_EX, RABBIT_PORT, date, charID, name, imgURL, powers,publisher)
+        #sendRequest(RABBIT_HOST2, RABBIT_Q,RABBIT_USER, RABBIT_PASS, RABBIT_VH, RABBIT_EX, RABBIT_PORT, date, charID, name, imgURL, powers,publisher)
 
         #just for testing error collection
         #sendError(RABBIT_HOST, RABBIT_Q,RABBIT_USER, RABBIT_PASS, RABBIT_VH, eRABBIT_EX, RABBIT_PORT, date, errorMSG)
@@ -83,7 +83,7 @@ def sendCharData(fullCharDetailURL, name, publisher):
         print('REQUEST FAILED, TOO MANY KNOCKS?')
 
 def sendRequest(rabbitServer, rabbitQ, rabbitUser, rabbitPass, rabbitVHost, rabbitEx, rabbitPort, date, charID, name ,imgURL, powers, publisher):
-    
+    rabbitServer2 = '127.0.0.1'
     charDict= {'date': date,
                 'charID': charID,
                 'name': name,
@@ -93,10 +93,15 @@ def sendRequest(rabbitServer, rabbitQ, rabbitUser, rabbitPass, rabbitVHost, rabb
                 }
     rabbitMSG = json.dumps( charDict, sort_keys=True, indent=4, default=str)      
     creds = pika.PlainCredentials(rabbitUser, rabbitPass)
-    connection = pika.BlockingConnection(pika.ConnectionParameters(rabbitServer, rabbitPort, rabbitVHost, creds))
-    channel = connection.channel()
-    channel.basic_publish(exchange=rabbitEx, routing_key=rabbitQ, body=rabbitMSG)
-
+    try:
+        connection = pika.BlockingConnection(pika.ConnectionParameters(rabbitServer, rabbitPort, rabbitVHost, creds))
+        channel = connection.channel()
+        channel.basic_publish(exchange=rabbitEx, routing_key=rabbitQ, body=rabbitMSG)
+    except pika.exceptions.ConnectionClosed as err:
+        connection = pika.BlockingConnection(pika.ConnectionParameters(rabbitServer2, rabbitPort, rabbitVHost, creds))
+        channel = connection.channel()
+        channel.basic_publish(exchange=rabbitEx, routing_key=rabbitQ, body=rabbitMSG)
+    
 def sendError(rabbitServer, rabbitQ, rabbitUser, rabbitPass, rabbitVHost, rabbitEx, rabbitPort, date, msg):
     rabbitMSG = json.dumps( {'type': 'error',
                              'date': date,
