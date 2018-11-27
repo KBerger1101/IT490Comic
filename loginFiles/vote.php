@@ -9,8 +9,8 @@ if ($response != false) #vote successful!
 {
 	echo "<p>Vote Successful! Good Luck!</p>";
 	$_SESSION['hasVoted'] = true;
-	$_SESSION['tokens'] = $_SESSION['tokens'] - 100;
-	sleep(5);
+	#$_SESSION['tokens'] = $_SESSION['tokens'] - 100;
+	#sleep(5);
 	header("location: /loginFiles/dailyPage.php");
 }
 else
@@ -21,4 +21,4 @@ else
 	#sleep(5);
 	header("location: /loginFiles/dailyPage.php");
 }
-?>
+

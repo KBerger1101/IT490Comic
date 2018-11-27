@@ -30,6 +30,7 @@ if you see this you should see matchup, vote below
 <form action='vote.php' method="POST">
 <input type="radio" name="vote" value="DC">Vote DC<br>
 <input type="radio" name="vote" value="Marvel">Vote Marvel<br>
+<input type="radio" name="vote" value="Mix">Vote Mix<br>
 <button>Submit Vote</button>
 
 </form>
