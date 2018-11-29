@@ -1,0 +1,31 @@
+#### ADD THE FOLLOWING TO CRONTAB, REPLACE <user> WITH YOUR USER ####
+
+### THE FOLLOWING IS FOR DMZ MACHINE ONLY ###
+
+1 0 * * * cd /home/<user>/git/IT490Comic/pythonScript/ && /home/<user>/git/IT490Comic/pythonScript/createMatchup.py
+
+
+### THE FOLLOWING IS FOR BACKEND MACHINE ONLY ###
+
+59 23 * * * cd /home/<user>/git/IT490Comic/rabbitFiles/ && /home/<user>/git/IT490Comic/rabbitFiles/dailyWinner.Calc.php
+59 23 * * 0 cd /home/<user>/git/IT490Comic/rabbitFiles/ && /home/<user>/git/IT490Comic/rabbitFiles/weekWinnerCalc.php
+
+
+
+#### COPY AND PASTE ALL OF BELOW INTO ANACRON (OVERWRITE ALL OR ONLY LAST LINE) ####
+
+# /etc/anacrontab: configuration file for anacron
+
+# See anacron(8) and anacrontab(5) for details.
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+HOME=/root
+LOGNAME=root
+
+# These replace cron's entries
+1       5       cron.daily      run-parts --report /etc/cron.daily
+7       10      cron.weekly     run-parts --report /etc/cron.weekly
+@monthly        15      cron.monthly    run-parts --report /etc/cron.monthly
+1       5       cron.daily      crontab
+#### ABOVE LINE IS ADDED TO ANACRON IN /etc/anacron ####                     
