@@ -47,7 +47,7 @@ function dailyWinner()
 	$MarVotes = mysqli_num_rows($Marvel);
 	echo "Marvel VOTES ".$MarVotes.PHP_EOL;
 	#compare votes
-	if ($DCVotes > $MarVotes && $MarVotes > $MixVotes)
+	if ($DCVotes > $MarVotes && $DCVotes > $MixVotes)
 	{
 		$winner = "Team DC Comics";
 		$query = "INSERT INTO winTable VALUES( CURDATE(), 'DC')";
@@ -60,7 +60,7 @@ function dailyWinner()
 			$mysqli->query($query);
 		}
 	}
-	elseif ($MarVotes > $DCVotes && $DCVotes > $MixVotes)
+	elseif ($MarVotes > $DCVotes && $MarVotes > $MixVotes)
 	{
 		$winner = "Team Marvel";
 		$query = "INSERT INTO winTable VALUES( CURDATE(), 'Marvel')";
@@ -73,7 +73,7 @@ function dailyWinner()
 			$mysqli->query($query);
 		}
 	}
-	elseif ($MixVotes > $MarVotes && $MarVotes > $DCVotes)
+	elseif ($MixVotes > $MarVotes && $MixVotes > $DCVotes)
 	{
 		$winner = "Team Mix";
 		$query = "INSERT INTO winTable VALUES( CURDATE(), 'Mix')";

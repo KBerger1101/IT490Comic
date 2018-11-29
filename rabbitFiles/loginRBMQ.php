@@ -183,24 +183,17 @@ function vote($userName, $vote)
         $request6['username']=$userName;
         $request6['vote']=$vote;
 
-	if (!isset($_SESSION['backup']))
-	{
 	$client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
 	$response=$client->send_request($request6);
 	if ($response == 69)
 	{
-		$_SESSION['backup'] = true;
-                $bClient = new rabbitMQClient("backupMQ.ini","testServer");
+	      
+	      #$_SESSION['test'] = true;
+               $bClient = new rabbitMQClient("backupMQ.ini","testServer");
                 $response= $bClient->send_request($request6);
+#
+	}
 
-	}
-	}
-	else
-	{
-		$bClient= new rabbitMQClient("backupMQ.ini", "testServer");
-                $response = $bClient->send_request($request6);
-
-	}
 	return $response;
 
 }
