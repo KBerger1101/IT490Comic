@@ -108,6 +108,7 @@ function validateSession($userName,$sessionID)
 	$response= $client->send_request($request4);	
 	if ($response == 69)
 	{
+		$_SESSION['test']= true;
 		echo "backup set in validate session";
 		$_SESSION['backup'] = true;
 		$bClient = new rabbitMQClient("backupMQ.ini","testServer");
@@ -182,16 +183,17 @@ function vote($userName, $vote)
         $request6['type']="vote";
         $request6['username']=$userName;
         $request6['vote']=$vote;
+	if (!isset($_SESSION['backup']))
+	{
 
 	$client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
 	$response=$client->send_request($request6);
-	if ($response == 69)
-	{
-	      
-	      #$_SESSION['test'] = true;
+	}
+	else
+	{	      
+	       $_SESSION['test'] = true;
                $bClient = new rabbitMQClient("backupMQ.ini","testServer");
-                $response= $bClient->send_request($request6);
-#
+               $response= $bClient->send_request($request6);
 	}
 
 	return $response;
