@@ -92,7 +92,7 @@ class rabbitMQServer
 		{
 			// ampq throws exception if get fails...
             		$eMSG =  "error: rabbitMQServer: process_message: exception caught: ".$e;
-			echo $eMSG;
+			
 			$eDate= date('Y-m-d H:i:s');
 			logger("rabbit",$eDate,$eMSG);
 		}
@@ -103,7 +103,7 @@ class rabbitMQServer
 		{
 			call_user_func($this->callback,$payload);
 		}
-		echo "processed one-way message\n";
+		#echo "processed one-way message\n";
 	}
 
 	function process_requests($callback)
@@ -141,7 +141,6 @@ class rabbitMQServer
 		catch (Exception $e)
 		{
 			$eMSG = "Failed to start request processor: ".$e;
-			echo $eMSG;
 			$eDate= date('Y-m-d H:i:s');
                         logger("rabbit",$eDate,$eMSG);
 			trigger_error("Failed to start request processor: ".$e,E_USER_ERROR); 
@@ -250,7 +249,7 @@ class rabbitMQClient
 			logger("rabbit",$eDate,$eMSG);
 			$response = 69;
 			return $response;
-			#die("failed to send message to exchange: ". $e->getMessage()."\n");
+			die("failed to send message to exchange: ". $e->getMessage()."\n");
 		}
 	}
 
