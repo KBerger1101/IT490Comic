@@ -106,19 +106,26 @@ function validateSession($userName,$sessionID)
 	$response= $client->send_request($request4);	
 	if ($response == 69)
 	{
+		$request4= array();
+        $request4['type']="validate";
+        $request4['username']= $userName;
+        $request4['sessionID']= $sessionID;
+
 		$_SESSION['backup'] = true;
 		$bClient = new rabbitMQClient("backupMQ.ini","testServer");
 		$response= $bClient->send_request($request4);
 	}
 	}
 	else
-        {
+	{
+		$request4= array();
+        $request4['type']="validate";
+        $request4['username']= $userName;
+        $request4['sessionID']= $sessionID;
+
                 $bClient= new rabbitMQClient("backupMQ.ini", "testServer");
 		$response = $bClient->send_request($request4);
-		if ($response == 69)
-		{
-			return false;
-		}
+		
         }
 
 	return $response;
