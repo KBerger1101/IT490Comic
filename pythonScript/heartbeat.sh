@@ -8,8 +8,7 @@ do
 	if [ $? -ne 0 ]
 	then
 	       	echo "Main server down"
-		php /home/kevin/git/IT490Comic/rabbitFiles/loginServer.php
-
+		python3 /home/kevin/git/IT490Comic/pythonScript/createMatchup.py
 	fi
 
 done
