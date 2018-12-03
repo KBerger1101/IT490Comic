@@ -45,36 +45,27 @@ if($_SESSION['hasVoted'])
   <body class="modal-header">
 
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-      <div class="container">
-        <a class="navbar-brand" href="#">This is EPIC!</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="index.html">Home
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-    <!--        <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
-            </li> -->
-          </ul>
-        </div>
-      </div>
-    </nav>
-
+	  
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light"><a class="navbar-brand" href="#">EPIC Hero Challenges</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active"> <a class="nav-link" href="choicePage.php">Home <span class="sr-only">(current)</span></a> </li>
+		<li class="nav-item active"> <a class="nav-link" href="dailyPage.php">Daily Matchup <span class="sr-only">(current)</span></a> </li>
+		<li class="nav-item active"> <a class="nav-link" href="dailyPage.php">Leaderboards <span class="sr-only">(current)</span></a> </li>
+		<li class="nav-item active"> <a class="nav-link" href="tutorial.php">Tutorial <span class="sr-only">(current)</span></a> </li>
+	  <li class="nav-item active"> <a class="nav-link" href="logout.php">Logout <span class="sr-only">(current)</span></a> </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+    
 <div id="textResponse">
-if you see this you should see matchup, vote below
-<a href="choicePage.php"><button>Home Page</button></a>
+  if you see this you should see matchup, vote below
+  <a href="choicePage.php"><button>Home Page</button></a>
 <a href="logout.php"><button>LOGOUT</button></a>
 </div>
 
@@ -82,13 +73,8 @@ if you see this you should see matchup, vote below
 <input type="radio" name="vote" value="DC">Vote DC<br>
 <input type="radio" name="vote" value="Marvel">Vote Marvel<br>
 <button>Submit Vote</button>
-
-</form>
-</div>
-<table width="801" border="1">
-  <tr>
-    <td width="392"><div style="width: auto; float: left;" >
-      <?php
+<span style="width: auto; float: left;">
+<?php
 
 
 $dcPrint= "";
@@ -111,9 +97,8 @@ foreach ($_SESSION['heroData']['DC'][$i]["powers"] as $power)
 echo "<h1> Team DC</h1>";
 echo $dcPrint;
 ?>
-    </div></td>
-    <td width="393"><div style="width:300px; float:right">
-      <?php
+</span><span style="width:300px; float:right">
+<?php
 $marPrint= "";
 for ($i =0 ; $i <5; $i ++){
 $marPrint.="<h3>". $_SESSION['heroData']['Marvel'][$i]['charName']."</h3>";
@@ -133,9 +118,10 @@ foreach ($_SESSION['heroData']['Marvel'][$i]["powers"] as $power)
 echo "<h1>Team Marvel</h1>";
 echo $marPrint;
 ?>
-    </div></td>
-  </tr>
-</table>
+</span>
+
+</form>
+</div>
 <!--<div id="textResponse">
 if you see this you should see matchup, vote below
 <a href="logout.php"><button>LOGOUT</button></a>
