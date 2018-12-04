@@ -1,0 +1,15 @@
+[Unit]
+Description=loginSystem start up?
+After=mysqld.service apache2.service
+StartLimitIntervalSec=0
+StartLimitAction=reboot
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=kevin
+ExecStart= /usr/bin/env php /home/kevin/git/IT490Comic/backend/loginServer.php
+
+[Install]
+WantedBy=multi-user.target
