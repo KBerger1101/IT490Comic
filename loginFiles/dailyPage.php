@@ -17,13 +17,51 @@ height: auto;
 }
 </style>
 </head>
-<h1>matchup</h1>
 <body>
 <div style="width:800px;">
+<?php
+if($_SESSION['hasVoted'])
+{
+        echo "<p>You have voted today!</p>";
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
 
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>EPIC Hero Challenges</title>
+
+    <!-- Link to bootstrap file -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="SigninDIV.css" rel="stylesheet" type="text/css">
+  </head>
+
+  <body class="modal-header">
+
+    <!-- Navigation Bar -->
+	  
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light"><a class="navbar-brand" href="#">EPIC Hero Challenges</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active"> <a class="nav-link" href="choicePage.php">Home <span class="sr-only">(current)</span></a> </li>
+		<li class="nav-item active"> <a class="nav-link" href="dailyPage.php">Daily Matchup <span class="sr-only">(current)</span></a> </li>
+		<li class="nav-item active"> <a class="nav-link" href="leaderboards.php">Leaderboards <span class="sr-only">(current)</span></a> </li>
+		<li class="nav-item active"> <a class="nav-link" href="tutorial.php">Tutorial <span class="sr-only">(current)</span></a> </li>
+	  <li class="nav-item active"> <a class="nav-link" href="logout.php">Logout <span class="sr-only">(current)</span></a> </li>
+    </ul>
+  </div>
+</nav>
+    
 <div id="textResponse">
-if you see this you should see matchup, vote below
-<a href="choicePage.php"><button>Home Page</button></a>
+  if you see this you should see matchup, vote below
+  <a href="choicePage.php"><button>Home Page</button></a>
 <a href="logout.php"><button>LOGOUT</button></a>
 </div>
 
@@ -32,26 +70,9 @@ if you see this you should see matchup, vote below
 <input type="radio" name="vote" value="Marvel">Vote Marvel<br>
 <input type="radio" name="vote" value="Mix">Vote Mix<br>
 <button>Submit Vote</button>
-
-</form>
-
-
-<div style="width:300px; float:left;" >
+<span style="width: auto; float: left;">
 <?php
-$mixPrint= "";
-for ($i = 0; $i <5; $i ++){
-	$mixPrint.="<h3>".$_SESSION['heroData']['Mix'][$i]['charName']."</h3>";
-	$mixPrint.= "<br><img class='img' src= ".$_SESSION['heroData']['Mix'][$i]['imgURL'].">";
-	$mixPrint.="<br>";
-	foreach ($_SESSION['heroData']['Mix'][$i]["powers"] as $power)
-	{
-		$mixPrint.=$power['powerDesc'];
-		$mixPrint.="<br>";
-	}
-}
 
-echo "<h1>Team Mix</h1>";
-echo $mixPrint;
 
 $dcPrint= "";
 for ($i =0 ; $i <5; $i ++){
@@ -59,6 +80,9 @@ for ($i =0 ; $i <5; $i ++){
 $dcPrint.= "<br><img class='img' src= ".$_SESSION['heroData']['DC'][$i]['imgURL'].">";
 $dcPrint.="<br>";
 
+#echo $_SESSION['heroData']['DC'][0]['charName'];
+#echo "<img src =".$_SESSION['heroData']['DC'][0]['imgURL'].">";
+#echo '<br>';
 foreach ($_SESSION['heroData']['DC'][$i]["powers"] as $power)
 {
 	$dcPrint.=$power['powerDesc'];
@@ -70,8 +94,7 @@ foreach ($_SESSION['heroData']['DC'][$i]["powers"] as $power)
 echo "<h1> Team DC</h1>";
 echo $dcPrint;
 ?>
-</div>
-<div style="width:300px; float:right">
+</span><span style="width:300px; float:right">
 <?php
 $marPrint= "";
 for ($i =0 ; $i <5; $i ++){
@@ -91,8 +114,25 @@ foreach ($_SESSION['heroData']['Marvel'][$i]["powers"] as $power)
 #echo '<br>';
 echo "<h1>Team Marvel</h1>";
 echo $marPrint;
+$mixPrint= "";
+for ($i = 0; $i <5; $i ++){
+        $mixPrint.="<h3>".$_SESSION['heroData']['Mix'][$i]['charName']."</h3>";
+        $mixPrint.= "<br><img class='img' src= ".$_SESSION['heroData']['Mix'][$i]['imgURL'].">";
+        $mixPrint.="<br>";
+        foreach ($_SESSION['heroData']['Mix'][$i]["powers"] as $power)
+        {
+                $mixPrint.=$power['powerDesc'];
+                $mixPrint.="<br>";
+        }
+}
+
+echo "<h1>Team Mix</h1>";
+echo $mixPrint;
+
 ?>
-</div>
+</span>
+
+</form>
 </div>
 <!--<div id="textResponse">
 if you see this you should see matchup, vote below

@@ -134,7 +134,6 @@ if ($_SERVER['REQUEST_METHOD']=='POST')
 
 
 
-          <p class="mr-sm-2"> <bold><a href="register.html">Register Now</a> </bold></p>
           <ul class="list-unstyled">
             <li></li>
           </ul>
