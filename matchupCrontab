@@ -1,3 +1,0 @@
-1 0 * * * cd /home/kevin/git/IT490Comic/pythonScript/ && /home/kevin/git/IT490Comic/pythonScript/createMatchup.py
-0 0 * * * cd /home/kevin/git/IT490Comic/rabbitFiles/ && /home/kevin/git/IT490Comic/rabbitFiles/dailyWinner.Calc.php
-0 0 * * 0 cd /home/kevin/git/IT490Comic/rabbitFiles/ && /home/kevn/git/IT490Comic/rabbitFiles/weekWinnerCalc.php
