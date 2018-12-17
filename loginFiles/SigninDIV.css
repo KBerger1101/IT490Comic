@@ -113,3 +113,8 @@ body {
   color: white;
   background-color: #3b5998;
 }
+.t1, .t2 { border-collapse: collapse; }
+.t1 > tbody > tr > td { border: 1px solid white; }
+.t2 > tbody > tr > td { border: 1px solid white; }
+
+.t3 td { white-space: nowrap; }

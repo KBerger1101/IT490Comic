@@ -3,6 +3,7 @@ session_start();
 require_once $_SERVER['DOCUMENT_ROOT'].'/checkSession.php';
 ?>
 <html>
+	<center>
 <h1>What would you like to do?</h1>
 	<head>
 
@@ -23,7 +24,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/checkSession.php';
   <div class="collapse navbar-collapse" id="navbarSupportedContent1">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active"> <a class="nav-link" href="choicePage.php">Home <span class="sr-only">(current)</span></a> </li>
-		<li class="nav-item active"> <a class="nav-link" href="dailyPage.php">Daily Matchup <span class="sr-only">(current)</span></a> </li>
+		<li class="nav-item active"> <a class="nav-link" href="dailyPage.php">View Daily Matchup <span class="sr-only">(current)</span></a> </li>
 		<li class="nav-item active"> <a class="nav-link" href="leaderboards.php">Leaderboards <span class="sr-only">(current)</span></a> </li>
 	<li class="nav-item active"> <a class="nav-link" href="tutorial.php">Tutorial <span class="sr-only">(current)</span></a> </li>
 	  <li class="nav-item active"> <a class="nav-link" href="logout.php">Logout <span class="sr-only">(current)</span></a> </li>
@@ -41,13 +42,13 @@ echo "Current score: ". $_SESSION['points'].PHP_EOL;
 echo "<br>";
 echo "Tokens available to bet: ". $_SESSION['tokens'].PHP_EOL;
 ?>
-
 <form action="/loginFiles/dailyPage.php">
 <button type="submit" >View Daily Matchup</button>
 </form>
 <form action="/loginFiles/leaderboards.php">
 <button type="submit" >View Leaderboards</button>
 </form>
+	<p>Purchase Additional Playing Tokens Here:</p>
 
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 <input type="hidden" name="cmd" value="_xclick">
@@ -76,6 +77,8 @@ echo "Tokens available to bet: ". $_SESSION['tokens'].PHP_EOL;
 <a href="logout.php">
 <button>Logout</button>
 </a>
+	</center>
+
 <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 <script src="js/popper.min.js" type="text/javascript"></script>
 </body>
