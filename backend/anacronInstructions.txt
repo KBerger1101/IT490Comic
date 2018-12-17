@@ -10,6 +10,10 @@
 59 23 * * * cd /home/<user>/git/IT490Comic/rabbitFiles/ && /home/<user>/git/IT490Comic/rabbitFiles/dailyWinner.Calc.php
 59 23 * * 0 cd /home/<user>/git/IT490Comic/rabbitFiles/ && /home/<user>/git/IT490Comic/rabbitFiles/weekWinnerCalc.php
 
+### THE FOLLOWING IS FOR BACKEND BACKUP ###
+59 23 * * * cd /home/<user>/git/IT490Comic/rabbitFiles/ && /home/<user>/git/IT490Comic/rabbitFiles/heartbeatdaily.sh
+59 23 * * * cd /home/<user>/git/IT490Comic/rabbitFiles/ && /home/<user>/git/IT490Comic/rabbitFiles/heartbeatweekly.sh
+
 
 
 #### COPY AND PASTE ALL OF BELOW INTO ANACRON (OVERWRITE ALL OR ONLY LAST LINE) ####

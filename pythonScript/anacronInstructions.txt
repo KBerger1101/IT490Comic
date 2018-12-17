@@ -4,6 +4,9 @@
 
 1 0 * * * cd /home/<user>/git/IT490Comic/pythonScript/ && /home/<user>/git/IT490Comic/pythonScript/createMatchup.py
 
+### THE FOLLOWING IS FOR DMZ BACKUP ###
+1 0 * * * cd /home/<user>/git/IT490Comic/pythonScript/ && /home/<user>/git/IT490Comic/pythonScript/heartbeat.sh
+
 
 ### THE FOLLOWING IS FOR BACKEND MACHINE ONLY ###
 
