@@ -48,12 +48,15 @@ if ($_SESSION['lb'] ==null)
 <div id="textResponse">
 View Leaderboards Below
 <p></p>
+
+<a href="choicePage.php"><button>Home Page</button></a>
+<a href="logout.php"><button>LOGOUT</button></a>
 </div>
 
 <?php
 foreach ($_SESSION['lb']['leaderboard'] as $user)
 {
-	echo "<b>".$user['userName']."</b>";
+	echo $user['userName'];
 	echo " ";
 	echo $user['points'];
 	echo '<br>';

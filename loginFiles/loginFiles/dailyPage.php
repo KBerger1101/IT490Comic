@@ -58,9 +58,12 @@ if($_SESSION['hasVoted'])
     </ul>
   </div>
 </nav>
-</body> 
-<br>
-<br>   
+    
+<div id="textResponse">
+  if you see this you should see matchup, vote below
+  <a href="choicePage.php"><button>Home Page</button></a>
+<a href="logout.php"><button>LOGOUT</button></a>
+</div>
 
 <form action='vote.php' method="POST">
 <input type="radio" name="vote" value="DC">Vote DC<br>

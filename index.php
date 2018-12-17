@@ -11,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD']=='POST')
                 require 'loginFiles/registerRequest.php';
         }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -27,26 +26,20 @@ if ($_SERVER['REQUEST_METHOD']=='POST')
     <title>EPIC Hero Challenges</title>
 
     <!-- Link to bootstrap file -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="SigninDIV.css" rel="stylesheet" type="text/css">
   </head>
-
-  <body class="modal-header">
-
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-      <div class="container">
-        <a class="navbar-brand" href="#">This is EPIC!</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="index.html">Home
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
+<body style="padding-top: 70px">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light"><a class="navbar-brand" href="#">EPIC Hero Challenges</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active"> <a class="nav-link" href="choicePage.php">Home <span class="sr-only">(current)</span></a> </li>
+		<li class="nav-item active"> <a class="nav-link" href="loginFiles/tutorialExt.php">Tutorial <span class="sr-only">(current)</span></a> </li>
+    </ul>
+  </div>
+</nav>
     <!--        <li class="nav-item">
               <a class="nav-link" href="#">About</a>
             </li>
@@ -61,8 +54,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST')
       </div>
     </nav>
 
-
-<p></p><p></p><p></p><p></p><p></p>
+<p></p>
     <!-- Page Content -->
     <div class="container">
       <div class="row">
@@ -93,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST')
               <button name= 'login'  class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
               
 	    </form>
+			  <br>
 	<form action = "index.php" method= "POST" class="form-signin">
               <div class="form-label-group">
                 <input name="username" type="text" id="inputUserame" class="form-control" placeholder="Username" required autofocus>

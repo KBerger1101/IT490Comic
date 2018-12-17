@@ -4,7 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/checkSession.php';
 ?>
 <html>
 	<center>
-<h1>Main Menu</h1>
+<h1>What would you like to do?</h1>
 	<head>
 
     <meta charset="utf-8">
@@ -32,6 +32,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/checkSession.php';
   </div>
 </nav>
 <div id="textResponse">
+  if you see this you should see options
   <a href="logout.php"></a>
 </div>
 <?php
