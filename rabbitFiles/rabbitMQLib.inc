@@ -187,7 +187,7 @@ class rabbitMQClient
 		$uid = $response->getCorrelationId();
 		if (!isset($this->response_queue[$uid]))
 		{
-		  echo  "unknown uid\n";
+		#  echo  "unknown uid\n";
 		  return true;
 		}
     $this->conn_queue->ack($response->getDeliveryTag());
@@ -244,7 +244,7 @@ class rabbitMQClient
 		catch(Exception $e)
 		{
 			$eMSG = "failed to send message to exchange: ".$e->getMessage();
-			echo $eMSG;
+		#	echo $eMSG;
 			$eDate= date('Y-m-d H:i:s');
 			logger("rabbit",$eDate,$eMSG);
 			$response = 69;
@@ -285,7 +285,7 @@ class rabbitMQClient
 		catch(Exception $e)
 		{
 			$eMSG = "failed to send message to exchange: ".$e->getMessage();
-			echo $eMSG;
+		#	echo $eMSG;
 			$eDate= date('Y-m-d H:i:s');
                         logger("rabbit",$eMSG);
 			die("failed to send message to exchange: ". $e->getMessage()."\n");
